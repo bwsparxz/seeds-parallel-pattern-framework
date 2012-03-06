@@ -2,15 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/CogKit"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JXSE-UPNP"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/PGAF"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/cog_java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/seed_pgaf"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ssh_lib"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/cog_lib"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/gyn_lib"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/pgaf_lib"/>
 	<classpathentry kind="lib" path="lib/activation.jar"/>
 	<classpathentry kind="lib" path="lib/addressing-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
@@ -53,11 +44,9 @@
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-api.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging.LICENSE"/>
 	<classpathentry kind="lib" path="lib/concurrent.jar"/>
 	<classpathentry kind="lib" path="lib/cryptix-asn1.jar"/>
 	<classpathentry kind="lib" path="lib/cryptix.jar"/>
-	<classpathentry kind="lib" path="lib/cryptix.LICENSE"/>
 	<classpathentry kind="lib" path="lib/cryptix32.jar"/>
 	<classpathentry kind="lib" path="lib/dataflowdependencytest.jar"/>
 	<classpathentry kind="lib" path="lib/dataflowtest.jar"/>
@@ -82,10 +71,8 @@
 	<classpathentry kind="lib" path="lib/jce-jdk13-131.jar"/>
 	<classpathentry kind="lib" path="lib/jgss.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
-	<classpathentry kind="lib" path="lib/jxse_license.txt"/>
 	<classpathentry kind="lib" path="lib/jxta.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.8.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.8.LICENSE"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/matrix_multiplication_module.jar"/>
 	<classpathentry kind="lib" path="lib/monte_carlo.jar"/>
@@ -101,7 +88,6 @@
 	<classpathentry kind="lib" path="lib/saaj.jar"/>
 	<classpathentry kind="lib" path="lib/sbbi-jmx-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/sbbi-upnplib-1.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/upnp-lib_license.txt"/>
 	<classpathentry kind="lib" path="lib/wsdl4j.jar"/>
 	<classpathentry kind="lib" path="lib/wsrf_core_stubs.jar"/>
 	<classpathentry kind="lib" path="lib/wsrf_core.jar"/>
