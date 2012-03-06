@@ -1,0 +1,21 @@
+
+
+The package structure:
+
+
+edu.uncc.grid.pgaf.p2p
+	This package includes the p2p related services, such as building the network, and organizing the nodes.
+	
+edu.uncc.grid.pga.advertisement
+	This package is for custom advertisement.  There is need for advertisement to anounce Directors, and to 
+	direct pipes to directors.
+	
+edu.uncc.grid.pgaf.test
+	This package is used for programs that will test final features as well as to test complicated modules 
+	and algorithms in a more isolated environment (as oppose to adding the code to existing code and hope 
+	nothing crashes )
+	
+Future Package
+
+edu.uncc.grid.pgaf.framework.core
+edu.uncc.grid.pgaf.framework.templates

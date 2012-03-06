@@ -1,0 +1,64 @@
+<project name="PGAFramework" basedir="." >
+	
+	
+	<property name="src" value="src"/>
+	<property name="javadoc" value="doc"/>
+	<property name="lib" value="/data/jfvillal/lib"/>
+	<property name="dist" location="dist"/>
+	<property name="build" location="build" />
+	 
+	<target name="init">
+	  <tstamp/>
+	  <mkdir dir="${build}"/>  
+	</target>
+	
+	<path id="classpath">
+		<fileset dir="${lib}" includes="**/*.jar"/>
+	</path>
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" debug="true" debuglevel="lines,vars,source" destdir="${build}" classpathref="classpath"/>
+	</target>
+	
+	<target name="compile_perform" depends="init">
+		<javac srcdir="${src}"  destdir="${build}" classpathref="classpath"/>
+	</target>
+	
+	<target name="dist_perform" depends="compile_perform" description="generate the distribution" >
+	    <mkdir dir="${dist}/lib"/>
+	    <jar jarfile="${dist}/lib/seeds.jar" basedir="${build}"/>
+	    <!-- The next line will load the jar to the lab folder for network testing.-->
+	     <copy file="${dist}/lib/seeds.jar"  tofile="/data/jfvillal/Documents/GridComputing/lab/pgaf/lib/seeds.jar" ></copy>
+	</target>
+	
+	
+	<target name="dist" depends="compile" description="generate the distribution" >
+	    <mkdir dir="${dist}/lib"/>
+	    <jar jarfile="${dist}/lib/seeds.jar" basedir="${build}"/>
+	    <!-- The next line will load the jar to the lab folder for network testing.-->
+	     <copy file="${dist}/lib/seeds.jar"  tofile="/data/jfvillal/Documents/GridComputing/lab/pgaf/lib/seeds.jar" ></copy>
+	</target>
+	
+	<target name="javadocs" depends="compile">
+		<javadoc sourcepath="${src}" packagenames="edu.uncc.grid.*" destdir="${javadoc}" 
+			 private="true" classpathref="classpath" >
+			<doclet name="org.umlgraph.doclet.UmlGraphDoc" path="/data/jfvillal/bin/UMLGraph-5.2/UMLGraph-5.2/lib/UmlGraph.jar">
+				<param name="-inferrel"/>
+				<param name="-inferdep"/>
+				<param name="-hide" value="java.*"/>
+				<param name="-collpackages" value="java.util.*"/>
+				<param name="-qualify"/>
+				<param name="-postfixpackage"/>
+				<param name="-nodefontsize" value="9"/>
+				<param name="-nodefontpackagesize" value="7"/>
+				<param name="-link" value="http://java.sun.com/j2se/1.5.0/docs/guide/javadoc/doclet/spec"/>
+				<param name="-link" value="http://java.sun.com/j2se/1.5/docs/api"/>
+			</doclet>
+		</javadoc>
+	</target>
+	
+	  <target name="clean" description="clean up" >
+	    <!-- Delete the ${build} and ${dist} directory trees -->
+	    <delete dir="${build}"/>
+	    <delete dir="${dist}"/>
+	  </target>
+</project>
