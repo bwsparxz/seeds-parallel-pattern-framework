@@ -15,21 +15,11 @@
  */
 package edu.uncc.grid.pgaf.p2p;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.DatagramPacket;
 import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -42,16 +32,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.NodeType;
-
 import net.jxta.discovery.DiscoveryEvent;
 import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 import net.jxta.document.AdvertisementFactory;
-import net.jxta.document.MimeMediaType;
-import net.jxta.document.StructuredDocumentFactory;
-import net.jxta.document.XMLDocument;
 import net.jxta.endpoint.Message;
 import net.jxta.exception.PeerGroupException;
 import net.jxta.id.IDFactory;
@@ -62,6 +47,7 @@ import net.jxta.pipe.PipeID;
 import net.jxta.platform.NetworkConfigurator;
 import net.jxta.platform.NetworkManager;
 import net.jxta.protocol.DiscoveryResponseMsg;
+import net.sbbi.upnp.messages.UPNPResponseException;
 import edu.uncc.grid.pgaf.Pattern;
 import edu.uncc.grid.pgaf.Seeds;
 import edu.uncc.grid.pgaf.advertisement.DataLinkAdvertisement;
