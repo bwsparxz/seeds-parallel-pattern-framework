@@ -54,19 +54,42 @@ public abstract class PipeLine extends BasicLayerInterface {
 	 */
 	public abstract void GatherData(int segment, Data dat);
 	/**
-	 * This function should tell the framework what is the total number of pieces in which 
-	 * the user decided to divide the Input data.
-	 * @return
+	 * The programmer divides the problem into many pieces.  The framework can 
+	 * Retrieve the number of pieces by calling this method.
+	 * The framework will then call compute() getDataCount(), starting from 
+	 * zero, and stopping at getDataCount() - 1 
+	 * this is called inside the framework similar to the code
+	 * for( int i = 0; i < PipeLine.getDataCount(); i++){
+	 * 	//run compute()
+	 * }
+	 * 
+	 * @return returns the number of data pieces for the problem.
 	 */
 	public abstract int getDataCount();
 	
 	/**
-	 * This method should return the number of stages used to the framework.
+	 * This method should return the number of stages used by the framework.
+	 * Suppose getStageCount() return 3
+	 * The compute() method will be called by 3 difference processes.  the 
+	 * first will run compute( 0, 0).  The output from that will be 
+	 * sent to the second node, which computes compute( 1, 0).  It then
+	 * sends the output to the third node, which computes compute( 2, 0).
+	 * 
+	 * 
+	 * 
+	 * The segment number is increased according getDataCount().  
 	 * @return
 	 */
 	public abstract int getStageCount();
 	
-	
+	/**
+	 * Seeds is a three-tier framework.  This pattern plugs into the 
+	 * "advanced layer."  The advanced layer is another tier with the 
+	 * lowest tier being the infrastructure layer.  
+	 * 
+	 * This pattern must specify which advanced layer class can 
+	 * mount and run this module.
+	 */
 	@Override
 	public String getHostingTemplate() {
 		return PipeLineTemplate.class.getName();
