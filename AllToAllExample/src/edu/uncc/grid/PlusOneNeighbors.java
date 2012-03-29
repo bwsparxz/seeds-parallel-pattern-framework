@@ -36,10 +36,10 @@ public class PlusOneNeighbors extends CompleteSyncGraph {
 	public boolean OneIterationCompute(AllToAllData data) {
 		DataForAll dat = (DataForAll) data;
 		if( dat.getIterationCount() >= 3 ){
-			return false;
+			return true;
 		}
 	    dat.advanceIteration();
-	    return true;
+	    return false;
 	}
 	@Override
 	public int getCellCount() {
