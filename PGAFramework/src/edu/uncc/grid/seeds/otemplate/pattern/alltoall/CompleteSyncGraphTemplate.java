@@ -109,8 +109,8 @@ public class CompleteSyncGraphTemplate extends OrderedTemplate {
 	}
 
 	@Override
-	public void SourceSinkSide(Communicator comm) {
-		//not in use.
+	public boolean SourceSinkSide(Communicator comm) {
+		return true;
 	}
 
 	@Override

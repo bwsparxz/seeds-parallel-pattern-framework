@@ -53,6 +53,10 @@ public class PatternAdderLoader extends PatternLoader {
 					+ ((PatternAdderTemplate)OTemplate).FirstOperandAdvancedTemplate.getCommunicationID() +".txt" );
 			BufferedWriter write = new BufferedWriter(io);
 			
+			/**
+			 * This is the main computation loop for the pattern adder operator.  Seeds will call each of the pattern for a number
+			 * of iteration specified by the factors included in he pattern adder operator's arguments.
+			 */
 			while( ! done ){	
 
 				long time = System.nanoTime();

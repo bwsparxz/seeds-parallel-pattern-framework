@@ -252,7 +252,11 @@ public class PatternLoaderTemplate extends UnorderedTemplate {
 				PipeID child_pattern_id = IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID, DPattern.PatternID.toString().getBytes());
 				
 				Communicator comm = new Communicator(this.Network, child_pattern_id , CommunicationConstants.SINKSOURCE_SEGMENT);
-				DPattern.OTemplate.SourceSinkSide(comm);
+				/**
+				 * The while loop allows for one pattern to be called multiple time in the pattern adder operator.
+				 * This feature was extended for the Reduce pattern.
+				 */
+				while( !DPattern.OTemplate.SourceSinkSide(comm) );
 				comm.hasSent();
 				comm.close();
 				DPattern.OTemplate.getUserModule().setDone(true);

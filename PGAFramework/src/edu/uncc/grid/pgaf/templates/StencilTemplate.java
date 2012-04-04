@@ -4,14 +4,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Map;
 import java.util.logging.Level;
 
-import net.jxta.pipe.PipeID;
-import edu.uncc.grid.pgaf.communication.CommunicationLinkTimeoutException;
 import edu.uncc.grid.pgaf.communication.Communicator;
-import edu.uncc.grid.pgaf.communication.nat.TunnelNotAvailableException;
-import edu.uncc.grid.pgaf.datamodules.Data;
 import edu.uncc.grid.pgaf.datamodules.DataContainer;
 import edu.uncc.grid.pgaf.datamodules.DataMap;
 import edu.uncc.grid.pgaf.datamodules.StencilData;
@@ -212,9 +207,8 @@ public class StencilTemplate extends OrderedTemplate {
 	}
 
 	@Override
-	public void SourceSinkSide(Communicator comm) {
-		// not in used, the Loader pattern takes care of this.
-		
+	public boolean SourceSinkSide(Communicator comm) {
+		return true;
 	}
 
 	@Override
@@ -230,27 +224,27 @@ public class StencilTemplate extends OrderedTemplate {
 		Segment = container.getSegment();
 		
 		//performance measurement code
-		try {
+		/*try {
 			FileWriter performance_report_file;
 			performance_report_file = new FileWriter ( Node.getLogFolder() + "/Stencil.performance." + container.getSegment() + ".txt" );
 			PerformanceReportWriter = new BufferedWriter(performance_report_file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	
 	}
 
 	@Override
 	public void FinalizeObject() {
-		
+		/*
 		try {
 			this.PerformanceReportWriter.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 	}
 
 }

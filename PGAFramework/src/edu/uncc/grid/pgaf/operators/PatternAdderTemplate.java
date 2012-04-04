@@ -36,13 +36,14 @@ public class PatternAdderTemplate extends OrderedTemplate {
 	}
 
 	@Override
-	public void SourceSinkSide(Communicator comm) {
+	public boolean SourceSinkSide(Communicator comm) {
 		// Not used for this pattern. (because the Stencil and 
 		// the complete patterns use the loading pattern to 
 		//distribute the initial data.
 		
 		//a future modification to run a pipeline with an synch pattern 
 		//may require additional code in this method
+		return true;
 	}
 	/**
 	 * This method sets the first operands source and sink as the source and sink for 

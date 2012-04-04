@@ -55,10 +55,19 @@ public abstract class UnorderedTemplate extends Template{
 	public UnorderedTemplate(Node n) {
 		super(n);
 	}
+	/**
+	 * This method is run on the server side of the application.  This includes the Diffuse and Gather methods.
+	 * By default, all pattern have an input, a compute section, and an output.  This method should implement
+	 * the input and output.  Note that you are responsible to handle deadlocks at this level, you may need 
+	 * to handle the input and output processes on separate threads depending on the natute of the pattern.
+	 * @param pattern_id  specifies the unique patter for the pattern.  This allows multiple pattern to be executed by the framework.
+	 */
 	public abstract void ServerSide(PipeID pattern_id);
 	/**
 	 * this is a generic leaf worker doing some work
 	 * This is the function that is executed on remote systems
+	 * @param pattern_id  Each pattern has its own unique id to allow multiple patterns to run at the same time, even instances of the same
+	 *   patterns without having the communication lines conflicting.
 	 * @return returns true if the pattern is done, false otherwise
 	 */
 	public abstract boolean ClientSide(PipeID pattern_id);

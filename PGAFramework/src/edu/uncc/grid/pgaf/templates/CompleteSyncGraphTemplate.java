@@ -98,7 +98,7 @@ public class CompleteSyncGraphTemplate extends OrderedTemplate {
 		this.CommunicationID = container.getSegment();
 		
 		//performance measurement code
-		try {
+		/*try {
 			FileWriter performance_report_file;
 			performance_report_file = new FileWriter ( Node.getLogFolder() + "/CompleteGraph.performance." + this.CommunicationID + ".txt" );
 			PerformanceReportWriter = new BufferedWriter(performance_report_file);
@@ -106,11 +106,12 @@ public class CompleteSyncGraphTemplate extends OrderedTemplate {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	@Override
-	public void SourceSinkSide(Communicator comm) {
-		//not in use.
+	public boolean SourceSinkSide(Communicator comm) {
+		return true;
 	}
 
 	@Override

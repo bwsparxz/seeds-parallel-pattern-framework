@@ -44,6 +44,10 @@ import edu.uncc.grid.pgaf.templates.PipeLineTemplate;
  *
  */
 public abstract class PatternLoader extends BasicLayerInterface{
+	/**
+	 * All patterns that make use of the pattern operator must using thie constant 
+	 * to load the persistent state into the computation workers.
+	 */
 	public static final String  INIT_DATA = "init_data";
 	protected OrderedTemplate OTemplate;
 	protected PipeID PatternID;

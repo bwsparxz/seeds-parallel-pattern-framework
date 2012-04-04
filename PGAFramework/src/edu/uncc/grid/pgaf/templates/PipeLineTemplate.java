@@ -109,7 +109,7 @@ public class PipeLineTemplate extends OrderedTemplate {
 	}
 
 	@Override
-	public void SourceSinkSide(Communicator comm) {
+	public boolean SourceSinkSide(Communicator comm) {
 		try {
 			PipeLine UserPipeLine = (PipeLine) this.UserModule;
 			long pipe_end = UserPipeLine.getStageCount() - 1;
@@ -175,6 +175,7 @@ public class PipeLineTemplate extends OrderedTemplate {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return true;
 	}
 	@Override
 	public String getSuportedInterface() {

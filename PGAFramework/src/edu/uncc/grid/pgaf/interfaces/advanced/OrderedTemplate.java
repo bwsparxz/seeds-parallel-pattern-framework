@@ -18,6 +18,10 @@ import edu.uncc.grid.pgaf.p2p.Node;
  *
  */
 public abstract class OrderedTemplate extends Template{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected long CommunicationID;
 	public OrderedTemplate(Node n) {
 		super(n);
@@ -31,11 +35,14 @@ public abstract class OrderedTemplate extends Template{
 	 */
 	public abstract boolean ComputeSide( Communicator comm);
 	/**
-	 * 
+	 * This communicator has an id of (-1)  To send messages to the SourceSinkSide use 
+	 * -1 id
 	 * @param comm
 	 * @param coeficient
+	 * @return true to stop iteration. Otherwise the framework continues to call 
+	 *   the method.
 	 */
-	public abstract void SourceSinkSide( Communicator comm);
+	public abstract boolean SourceSinkSide( Communicator comm);
 	/**
 	 * Used to configure the compute node.  Also used to load the initial stage.
 	 * Like the stage number in the case of pipeline or the initial value

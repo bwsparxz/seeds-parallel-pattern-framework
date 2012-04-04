@@ -1,6 +1,6 @@
 /* * Copyright (c) Jeremy Villalobos 2009
  *
- *   * All rights reserved
+ * 
  */
 package edu.uncc.grid.pgaf.templates;
 
