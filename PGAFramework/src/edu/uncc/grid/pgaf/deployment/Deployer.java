@@ -683,8 +683,9 @@ public class Deployer{
 		Thread t = new Thread( new Runnable(){
 			@Override
 			public void run() {
+				Thread.currentThread().setName("TheLocalNode");
 				LocalMachineNode.runNode();
-				Log.log(Level.FINE,"exit node");
+				Log.log(Level.FINE,"The local node is done");
 			}
 		} );
 		t.start();

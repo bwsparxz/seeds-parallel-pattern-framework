@@ -3,6 +3,7 @@ package edu.uncc.grid.pgaf.templates;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import edu.uncc.grid.pgaf.communication.CommunicationLinkTimeoutException;
 import edu.uncc.grid.pgaf.communication.Communicator;
@@ -52,7 +53,7 @@ public class ReduceTemplate extends OrderedTemplate{
 				dat.setControl(Types.DataControl.INSTRUCTION_JOBDONE);
 				dat.setInstruction(Types.DataInstruction.JOBDONE);
 				comm.Send( dat, -1L );
-				comm.hasSent();
+				Log( " HMKLWWE " );
 				return true;
 			}else{
 				comm.Send( data, -1L );
@@ -63,6 +64,12 @@ public class ReduceTemplate extends OrderedTemplate{
 			return true;
 		} 
 	}
+	public void Log( String str ){
+		//RoutineAdvertPublisherQuerier.addtoDebugErrorMessage(str);
+		//RemoteLogger.printToObserver(str);
+		Node.getLog().log(Level.FINEST, "\nThread Name:"+ Thread.currentThread().getName()+" Message: "  + str);
+	}
+	
 	int JobDone;
 	@Override
 	public boolean SourceSinkSide(Communicator comm) {

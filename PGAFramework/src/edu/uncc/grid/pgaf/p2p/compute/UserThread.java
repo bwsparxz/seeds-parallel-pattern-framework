@@ -72,13 +72,13 @@ public class UserThread extends Thread {
 					Node.getLog().log(Level.FINE, " Running as DATASINKSOURCE");
 					AdvancedTemplate.ServerSide(PatternID);
 					AdvancedTemplate.getUserModule().setDone(true);
-					Node.getLog().log(Level.FINE, " Getting back control from  DATASINKSOURCE");
+					Log( " Getting back control from  DATASINKSOURCE " );
 					PatternIsDone = true;
 				break;	
 			}
 			//the folowing lines are done if the program exists predictably.
 			AdvancedTemplate.FinalizeObject();
-			
+			Log( " Finalized Object " );
 			//these next two lines where added after 2 days of debuggin using coit-grid01,2,3,4.  
 			//BE VERY CAREFULL BEFORE REMING THIS LINES WITH AN ACTUALLY TOUGHT OUT ALGORITHM.
 		//	MultiModePipeMapper.initMapper(); //this is debugin code.  the point is that a node in route to hibernation with dependency X
@@ -89,6 +89,7 @@ public class UserThread extends Thread {
 												//and the old dependency advertisements may be out of the network.
 			
 			LWorker.HaveIWorkedOnThisPatternAlready.put(PatternID, true);
+			Log( "Have worked on this pattern " );
 			
 		}catch( Exception e){
 			Node.getLog().log(Level.SEVERE, this.getId() + "while working on template  \n"
@@ -97,6 +98,7 @@ public class UserThread extends Thread {
 			//		+ this.AdvancedTemplate.getClass().getName() + Node.getStringFromErrorStack(e));
 			
 		}
+		Log( " Return true UserThread done" );
 		ProcessDone = true;
 	}
 	public synchronized boolean isProcessDone() {
@@ -111,5 +113,12 @@ public class UserThread extends Thread {
 	public synchronized void setPatternIsDone(boolean patternIsDone) {
 		PatternIsDone = patternIsDone;
 	}
+	
+	public void Log( String str ){
+		//RoutineAdvertPublisherQuerier.addtoDebugErrorMessage(str);
+		//RemoteLogger.printToObserver(str);
+		Node.getLog().log(Level.FINEST, "\nThread Name:"+ Thread.currentThread().getName()+" Message: "  + str);
+	}
+	
 	
 }

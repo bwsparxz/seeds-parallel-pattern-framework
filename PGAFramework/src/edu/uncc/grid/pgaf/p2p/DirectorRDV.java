@@ -246,7 +246,7 @@ public class DirectorRDV {
 			TunnelPipeID = IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID);
 		}
 	
-		boolean FinalShutdown = false;
+		private boolean FinalShutdown = false;
 		/**
 		 * Runs the main DirectorRDV loop, it checks for new log messages for the Debug's system
 		 * Observer.  And it manages the Tunnel.  
@@ -472,7 +472,7 @@ public class DirectorRDV {
 //					discovery_service.getRemoteAdvertisements( null , DiscoveryService.ADV , DependencyAdvertisement.DependencyIDTag
 	//						, null , 200,this);
 					
-					if( this.FinalShutdown ){
+					if( this.FinalShutdown || ParentNode.isStopNetwork() ){
 						--final_count_down_num;
 						Node.getLog().log(Level.INFO, " It's the final count down! " + final_count_down_num);
 						if( final_count_down_num < 0){

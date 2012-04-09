@@ -108,16 +108,16 @@ public class PatternLoaderTemplate extends UnorderedTemplate {
 					Node.getLog().log(Level.SEVERE, Node.getStringFromErrorStack(e));
 				}
 				while( m_manager.hasSendData() ){
-					Node.getLog().log(Level.FINEST, " wait for send data" );
+					Log( " wait for send data" );
 					try{
-						Thread.sleep(100);
+						Thread.sleep(400);
 					}catch( InterruptedException e){
 						
 					}
 				}
 				Thread.sleep(300);
 				m_manager.close();
-				Log("SHUTTING DOWN" );
+				Log(" SHUTTING DOWN" );
 		} catch (IOException e1) {
 			Node.getLog().log(Level.SEVERE, Node.getStringFromErrorStack(e1));
 		} catch (ClassNotFoundException e1) {
@@ -156,7 +156,7 @@ public class PatternLoaderTemplate extends UnorderedTemplate {
 			int segment = 0;				//segment: data chunk from the user's app
 			long jobs_completed = 0;		//segments that have being processed and returned
 			//send data and process loop
-			Log( "jobs_completed " + jobs_completed + " getDataCount(): " + DPattern.getDataUnitCount());
+			Log( " Jobs_completed " + jobs_completed + " getDataCount(): " + DPattern.getDataUnitCount());
 			Map<String, Boolean> nodes_with_data_unit = new HashMap<String, Boolean>();
 			/*
 			 * Distribute job units
@@ -270,7 +270,6 @@ public class PatternLoaderTemplate extends UnorderedTemplate {
 				while( !DPattern.OTemplate.SourceSinkSide( comm ) );
 				comm.hasSent();
 				comm.close ();
-				DPattern.OTemplate.getUserModule().setDone(true);
 			}
 			/*
 			 * 
@@ -282,7 +281,7 @@ public class PatternLoaderTemplate extends UnorderedTemplate {
 			/*
 			 * Get the job units and end the patter.  
 			 */
-			synchronized( lst){
+			synchronized( lst ){
 				for( ConnectionManager manager: lst){
 					try {
 						Data output;
@@ -290,7 +289,7 @@ public class PatternLoaderTemplate extends UnorderedTemplate {
 						if( output.getControl() == Types.DataControl.NO_WORK_FOR_YOU){
 							Log( " Received a NO_WORK_FOR_YOU acknoledgement");
 						}else{
-							Log( " Receiving segment : " + output.getSegment()  + " jobs_completed: " + jobs_completed);
+							Log( " Receiving segment : " + output.getSegment()  + " jobs_completed: " + (++jobs_completed));
 							DPattern.GatherDataUnit(output.getSegment(), output);
 						}
 						
@@ -300,17 +299,13 @@ public class PatternLoaderTemplate extends UnorderedTemplate {
 					}
 				}
 			}
-			DPattern.OTemplate.getUserModule().setDone(true);
 			Log( "Data Sink Source is shuting down now ... ");
-		
-			
 			m_dispatcher.close();
 			
+			DPattern.OTemplate.getUserModule().setDone(true);
+		
+		
 			Log( "Going back to idleling");
-			
-			
-			//Log( "Shutting down network ");
-			//this.Network.bringNetworkDown();
 			
 		}catch(IOException e ){
 			Node.getLog().log(Level.SEVERE, Node.getStringFromErrorStack(e));
@@ -331,7 +326,7 @@ public class PatternLoaderTemplate extends UnorderedTemplate {
 	public void Log( String str ){
 		//RoutineAdvertPublisherQuerier.addtoDebugErrorMessage(str);
 		//RemoteLogger.printToObserver(str);
-		Node.getLog().log(Level.FINEST, "\n" + str);
+		Node.getLog().log(Level.FINEST, "\nThread Name:"+ Thread.currentThread().getName()+" Message: "  + str);
 	}
 	@Override
 	public void FinalizeObject() {

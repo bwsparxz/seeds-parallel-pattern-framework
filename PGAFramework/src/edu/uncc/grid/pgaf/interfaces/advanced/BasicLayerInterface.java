@@ -8,6 +8,7 @@ package edu.uncc.grid.pgaf.interfaces.advanced;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import edu.uncc.grid.pgaf.RawByteEncoder;
 import edu.uncc.grid.pgaf.p2p.Node;
@@ -89,6 +90,9 @@ public abstract class BasicLayerInterface implements Serializable{
 	synchronized public void watiOnPatternDone() throws InterruptedException{
 		while(!done){
 			wait();
+		}
+		if( done ){
+			Node.getLog().log(Level.FINEST, Thread.currentThread().getName() + " Done with Pattern ");
 		}
 	}
 	/**

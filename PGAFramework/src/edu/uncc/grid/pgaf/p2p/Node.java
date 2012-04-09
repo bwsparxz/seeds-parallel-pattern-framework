@@ -950,7 +950,32 @@ public class Node {
 		
 		discovery_service.publish(Advert);
 		//DONT PUBLISH EXPIRING ADVERTISEMENT
-		discovery_service.remotePublish(Advert);
+		//System.out.println( Advert.toString() );
+		try{
+			discovery_service.remotePublish(Advert);
+		}catch( NullPointerException e ){
+			//TODO this is oviously a work-around.  the stack trace is this 
+			
+			/*java.lang.NullPointerException
+			at net.jxta.impl.rendezvous.rdv.RdvPeerRdvService.walk(RdvPeerRdvService.java:701)
+			at net.jxta.impl.rendezvous.RendezVousServiceImpl.walk(RendezVousServiceImpl.java:696)
+			at net.jxta.impl.rendezvous.RendezVousServiceInterface.walk(RendezVousServiceInterface.java:288)
+			at net.jxta.impl.resolver.ResolverServiceImpl.propagateResponse(ResolverServiceImpl.java:904)
+			at net.jxta.impl.resolver.ResolverServiceImpl.sendResponse(ResolverServiceImpl.java:576)
+			at net.jxta.impl.resolver.ResolverServiceInterface.sendResponse(ResolverServiceInterface.java:176)
+			at net.jxta.impl.discovery.DiscoveryServiceImpl.remotePublish(DiscoveryServiceImpl.java:1196)
+			at net.jxta.impl.discovery.DiscoveryServiceImpl.remotePublish(DiscoveryServiceImpl.java:1133)
+			at net.jxta.impl.discovery.DiscoveryServiceImpl.remotePublish(DiscoveryServiceImpl.java:768)
+			at net.jxta.impl.discovery.DiscoveryServiceInterface.remotePublish(DiscoveryServiceInterface.java:220)
+			at edu.uncc.grid.pgaf.p2p.Node.spawnPattern(Node.java:954)
+			at edu.uncc.grid.pgaf.Seeds.startPattern(Seeds.java:54)
+			at edu.uncc.grid.RunAllToAllExample.main(RunAllToAllExample.java:27)*/
+			
+			//when you have time, please attach the JXSE source code to the project and follow the rabbit
+			//At least for mult-core runs, ignoring the exception works.
+			
+			e.printStackTrace();
+		}
 		CurrentPattern = Advert;
 		
 		return pattern_id;
@@ -1177,7 +1202,7 @@ public class Node {
 			}
 			discovery_service.remotePublish(shutdown_instruction);
 			try {
-				Thread.sleep(200);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				Node.getLog().log(Level.WARNING, Node.getStringFromErrorStack(e));
 			}
