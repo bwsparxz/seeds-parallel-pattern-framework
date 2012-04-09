@@ -11,6 +11,7 @@ import net.jxta.id.IDFactory;
 import net.jxta.peergroup.PeerGroupID;
 import net.jxta.pipe.PipeID;
 import edu.uncc.grid.pgaf.communication.Communicator;
+import edu.uncc.grid.pgaf.communication.NATNotSupportedException;
 import edu.uncc.grid.pgaf.datamodules.Data;
 import edu.uncc.grid.pgaf.datamodules.DataMap;
 import edu.uncc.grid.pgaf.datamodules.DataObject;
@@ -96,6 +97,9 @@ public abstract class PatternLoader extends BasicLayerInterface{
 		} catch (NoPortAvailableToOpenException e) {
 			Node.getLog().log(Level.FINER, Node.getStringFromErrorStack(e));
 			e.printStackTrace();
+		} catch (NATNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return input;
 	}
@@ -151,6 +155,26 @@ public abstract class PatternLoader extends BasicLayerInterface{
 	
 	public boolean isOperator(){
 		return false;
+	}
+	/**
+	 * Returns true if this loader has a custom communicators (the framework won't provide one )
+	 * @return
+	 */
+	public boolean hasComm(){
+		return false;
+	}
+		
+	/**
+	 * This method has to return a communicator if hasComm() returns true for this loader.
+	 * 
+	 * @return
+	 * @throws InterruptedException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws NoPortAvailableToOpenException
+	 */
+	public Communicator getComm() throws Exception{
+		return null;
 	}
 	
 }

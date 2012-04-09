@@ -249,16 +249,27 @@ public class PatternLoaderTemplate extends UnorderedTemplate {
 			//A child pattern id is derived from the parent pipe_id, that we I can create many more pattern id's without
 			//having to have then sychronize on a common id.
 			if( DPattern.instantiateSourceSink() ){ //if true, instantiates the source and sink for the OrderedPattern.
-				PipeID child_pattern_id = IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID, DPattern.PatternID.toString().getBytes());
-				
-				Communicator comm = new Communicator(this.Network, child_pattern_id , CommunicationConstants.SINKSOURCE_SEGMENT);
+				/*
+				 * This is old code.  The new interfaces to request the communicator from the pattern loader hopefully makes
+				 * it more clear who is in control of the communicator.
+				 */
+				Communicator comm = null;
+				if( DPattern.hasComm() ){
+					comm = DPattern.getComm();
+				}else{
+					PipeID child_pattern_id = IDFactory.newPipeID(
+																PeerGroupID.defaultNetPeerGroupID
+																, DPattern.PatternID.toString().getBytes()
+																);
+					comm = new Communicator(this.Network, child_pattern_id , CommunicationConstants.SINKSOURCE_SEGMENT);
+				}
 				/**
-				 * The while loop allows for one pattern to be called multiple time in the pattern adder operator.
+				 * The while loop allows for one pattern to be called multiple times in the pattern adder operator.
 				 * This feature was extended for the Reduce pattern.
 				 */
-				while( !DPattern.OTemplate.SourceSinkSide(comm) );
+				while( !DPattern.OTemplate.SourceSinkSide( comm ) );
 				comm.hasSent();
-				comm.close();
+				comm.close ();
 				DPattern.OTemplate.getUserModule().setDone(true);
 			}
 			/*
@@ -309,6 +320,8 @@ public class PatternLoaderTemplate extends UnorderedTemplate {
 			Node.getLog().log(Level.SEVERE, Node.getStringFromErrorStack(e));
 		}catch (InterruptedException e) {
 			Node.getLog().log(Level.SEVERE, Node.getStringFromErrorStack(e));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	@Override

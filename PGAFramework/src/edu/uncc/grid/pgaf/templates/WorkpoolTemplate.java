@@ -23,6 +23,7 @@ import edu.uncc.grid.pgaf.communication.CommunicationLinkTimeoutException;
 import edu.uncc.grid.pgaf.communication.ConnectionManager;
 import edu.uncc.grid.pgaf.communication.MultiModePipeClient;
 import edu.uncc.grid.pgaf.communication.MultiModePipeDispatcher;
+import edu.uncc.grid.pgaf.communication.NATNotSupportedException;
 import edu.uncc.grid.pgaf.communication.nat.TunnelNotAvailableException;
 import edu.uncc.grid.pgaf.communication.shared.ConnectionHibernatedException;
 import edu.uncc.grid.pgaf.datamodules.Data;
@@ -126,6 +127,9 @@ public class WorkpoolTemplate extends UnorderedTemplate {
 			Node.getLog().log(Level.SEVERE, Node.getStringFromErrorStack(e1));
 		} catch (CommunicationLinkTimeoutException e) {
 			Node.getLog().log(Level.SEVERE, Node.getStringFromErrorStack(e));
+		} catch (NATNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
 		return true;
 	}
@@ -261,6 +265,9 @@ public class WorkpoolTemplate extends UnorderedTemplate {
 			Node.getLog().log(Level.SEVERE, Node.getStringFromErrorStack(e));
 		} catch (NoPortAvailableToOpenException e) {
 			Node.getLog().log(Level.SEVERE, Node.getStringFromErrorStack(e));
+		} catch (NATNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	@Override

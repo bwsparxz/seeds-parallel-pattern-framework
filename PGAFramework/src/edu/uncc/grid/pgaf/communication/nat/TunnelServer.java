@@ -39,7 +39,8 @@ import edu.uncc.grid.pgaf.p2p.Node;
  * This class is used by the Director RDV to manage the connection sockets for each of the 
  * Virtual Pipes
  * @author jfvillal
- *
+ *@deprecated  We are no longer seeking inter-grid connections.  We are now focusing on the cloud and multi-core
+ *  This class will be removed from the framework soon !
  */
                                  //replace socketmanager with more efficient manager
 public class TunnelServer extends TunnelManager{

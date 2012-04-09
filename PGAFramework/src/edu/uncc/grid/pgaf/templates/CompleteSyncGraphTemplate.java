@@ -34,13 +34,13 @@ public class CompleteSyncGraphTemplate extends OrderedTemplate {
 	private static final long serialVersionUID = 1L;
 	//private int LoopCount;
 	AllToAllData LocalData;
-	private BufferedWriter PerformanceReportWriter;
+	//private BufferedWriter PerformanceReportWriter;
 	public CompleteSyncGraphTemplate(Node n) {
 		super(n);
 	//LoopCount = 0;
 		// no initiation of user's module stuff can go in this 
 		//function, use the method setUserModule to do that.
-		PerformanceReportWriter = null;
+		//PerformanceReportWriter = null;
 	}
 
 	@Override
@@ -81,12 +81,12 @@ public class CompleteSyncGraphTemplate extends OrderedTemplate {
 		
 		long stop_compt_timer = System.nanoTime() - set_comm_timer;
 		
-		try {
+		/*try {
 			this.PerformanceReportWriter.append("(nanos)comm: " + stop_comm_timer + ":compute:" + stop_compt_timer + "\n");
 		} catch (IOException e) {
 			Node.getLog().log(Level.FINEST,Node.getStringFromErrorStack(e));
 		}
-		
+		*/
 		return ans;
 	}
 
@@ -126,12 +126,12 @@ public class CompleteSyncGraphTemplate extends OrderedTemplate {
 
 	@Override
 	public void FinalizeObject() {
-		try {
+		/*try {
 			this.PerformanceReportWriter.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 	}
 

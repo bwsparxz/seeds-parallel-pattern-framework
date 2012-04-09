@@ -31,11 +31,29 @@ public class ModuleAdder extends OperatorModule {
 	int SecondOperandCoeficient;
 	
 	PatternLoader FirstLoaderMod;
+	PatternLoader SecondLoaderMod;
+	/**
+	 * For now only working on second argument.  it holds the 
+	 * communicator to be used by the source sink if the 
+	 * second argument has a source-sink stream as is the case
+	 * with a pipeline.
+	 */
+	Communicator StreamSourceSinkComm;
 	
 	public ModuleAdder(){
 		FirstOperand = null;
 		SecondOperand = null;
 	}
+	/**
+	 * The first pattern first will be called continustly for first_coeficient number of times.  Then
+	 * the second patter "second" is called continuesly for "second-coeficient" number of times.  the 
+	 * loop repeat again until either onde of the patterns return true in their computation methods.
+	 * 
+	 * @param first_coeficient
+	 * @param first
+	 * @param second_coeficient
+	 * @param second
+	 */
 	public ModuleAdder( int first_coeficient, Pattern first, int second_coeficient, Pattern second){
 		FirstOperand = first;
 		SecondOperand = second;
@@ -100,24 +118,42 @@ public class ModuleAdder extends OperatorModule {
 				this.FirstOperand = new Operand( args[this.FIRST_ARGS] , Anchor.valueOf( args[this.FIRST_ANCHOR] ) , first_mod);
 				first_mod.initializeModule( this.FirstOperand.getPatternArguments() );
 			}
-			String first_otemplate_str = FirstOperand.getPatternModule().getHostingTemplate();
 			
-			Class otemplate_class = loader.loadClass( first_otemplate_str );
-			Class[] node_arg = {Node.class};
-			Constructor cons = otemplate_class.getConstructor( node_arg );
+			{
+				String first_otemplate_str = FirstOperand.getPatternModule().getHostingTemplate();
+				Class otemplate_class = loader.loadClass( first_otemplate_str );
+				Class[] node_arg = {Node.class};
+				Constructor cons = otemplate_class.getConstructor( node_arg );
+				
+				OrderedTemplate advanced_template = (OrderedTemplate) cons.newInstance( this.getFramework() );
+				advanced_template.setUserModule( FirstOperand.getPatternModule() );
+				
+				FirstLoaderMod = (PatternLoader) advanced_template.getLoaderModule().newInstance();
+				FirstLoaderMod.setOTemplate( advanced_template ); //give o_template to loader module
+				FirstLoaderMod.setFramework( this.Framework );
 			
-			OrderedTemplate advanced_template = (OrderedTemplate) cons.newInstance( this.getFramework() );
-			advanced_template.setUserModule( FirstOperand.getPatternModule() );
+			}
 			
-			FirstLoaderMod = (PatternLoader) advanced_template.getLoaderModule().newInstance();
-			FirstLoaderMod.setOTemplate( advanced_template ); //give o_template to loader module
-			FirstLoaderMod.setFramework( this.Framework );
+			
 			BasicLayerInterface second_mod =null;
 			if( this.SecondOperand == null){
 				Class second_operand_mod = loader.loadClass(second_operand);
 				second_mod = (BasicLayerInterface) second_operand_mod.newInstance();
 				this.SecondOperand = new Operand( args[this.SECOND_ARGS], Anchor.valueOf( args[this.SECOND_ANCHOR]), second_mod);
 				second_mod.initializeModule( this.SecondOperand.getPatternArguments() );
+			}
+			{
+				String second_otemplate_str = SecondOperand.getPatternModule().getHostingTemplate();
+				Class otemplate_class = loader.loadClass( second_otemplate_str );
+				Class[] node_arg = {Node.class};
+				Constructor cons = otemplate_class.getConstructor( node_arg );
+				OrderedTemplate advanced_template_two = (OrderedTemplate) cons.newInstance( this.getFramework() );
+				advanced_template_two.setUserModule( SecondOperand.getPatternModule() );
+				
+				SecondLoaderMod = (PatternLoader) advanced_template_two.getLoaderModule().newInstance();
+				SecondLoaderMod.setOTemplate( advanced_template_two ); //give o_template to loader module
+				SecondLoaderMod.setFramework( this.Framework );
+				
 			}
 			int remaining_arguments = args.length - this.USER_MOD_INIT_ARGS; 
 			if( remaining_arguments > 0){
@@ -162,6 +198,10 @@ public class ModuleAdder extends OperatorModule {
 	public PatternLoader getFirstLoaderMod(PipeID PatternID) {
 		FirstLoaderMod.setPatternID(PatternID);
 		return FirstLoaderMod;
+	}
+	public PatternLoader getSecondLoaderMod( PipeID PatternID){
+		SecondLoaderMod.setPatternID(PatternID);
+		return SecondLoaderMod;
 	}
 	@Override
 	public int getFirstOperandCoeficient() {

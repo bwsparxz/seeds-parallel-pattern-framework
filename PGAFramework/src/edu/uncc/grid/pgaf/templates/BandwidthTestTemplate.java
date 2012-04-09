@@ -18,6 +18,7 @@ import net.jxta.pipe.PipeID;
 import edu.uncc.grid.pgaf.communication.ConnectionManager;
 import edu.uncc.grid.pgaf.communication.MultiModePipeClient;
 import edu.uncc.grid.pgaf.communication.MultiModePipeDispatcher;
+import edu.uncc.grid.pgaf.communication.NATNotSupportedException;
 import edu.uncc.grid.pgaf.communication.nat.TunnelNotAvailableException;
 import edu.uncc.grid.pgaf.datamodules.DataMap;
 import edu.uncc.grid.pgaf.interfaces.advanced.UnorderedTemplate;
@@ -121,6 +122,9 @@ public class BandwidthTestTemplate extends UnorderedTemplate {
 		} catch (TunnelNotAvailableException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		} catch (NATNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
 		return true;
 	}

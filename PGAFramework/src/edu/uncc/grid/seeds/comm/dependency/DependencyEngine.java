@@ -21,6 +21,7 @@ import edu.uncc.grid.pgaf.communication.CommunicationLinkTimeoutException;
 import edu.uncc.grid.pgaf.communication.ConnectionManager;
 import edu.uncc.grid.pgaf.communication.MultiModePipeClient;
 import edu.uncc.grid.pgaf.communication.MultiModePipeDispatcher;
+import edu.uncc.grid.pgaf.communication.NATNotSupportedException;
 import edu.uncc.grid.pgaf.communication.nat.TunnelNotAvailableException;
 import edu.uncc.grid.pgaf.communication.wan.ConnectionEstablishedListener;
 import edu.uncc.grid.pgaf.p2p.NoPortAvailableToOpenException;
@@ -82,7 +83,7 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 	
 	public void startServer() throws InterruptedException, IOException
 									, ClassNotFoundException
-									, NoPortAvailableToOpenException{
+									, NoPortAvailableToOpenException, NATNotSupportedException{
 		ConnectionServers = Collections.synchronizedList(new ArrayList<ConnectionManager>());
 		
 		HostedHids = new HashMap<String,Hida>();
@@ -365,11 +366,12 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 	 * @throws InterruptedException
 	 * @throws TunnelNotAvailableException
 	 * @throws CommunicationLinkTimeoutException
+	 * @throws NATNotSupportedException 
 	 */
 	public ConnectionManager getConnection( DependencyAdvertisement adv
 			,HierarchicalDependencyID id) throws IOException, ClassNotFoundException
 																		, InterruptedException, TunnelNotAvailableException
-																		, CommunicationLinkTimeoutException{
+																		, CommunicationLinkTimeoutException, NATNotSupportedException{
 		
 		ConnectionManager m_manager = null;
 		long time = System.currentTimeMillis();
@@ -411,6 +413,7 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 	 * @throws TimeoutException
 	 * @throws AdvertsMissingException 
 	 * @throws EngineClosedException 
+	 * @throws NATNotSupportedException 
 	 */
 	//TODO change UniqueID fro string to a HierarchicalDependency 
 	public Dependency getInputDependency( PipeID pattern_id, HierarchicalDependencyID id, long timeout, long cycle_version
@@ -419,7 +422,7 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 																				  IOException, ClassNotFoundException
 																				, TunnelNotAvailableException
 																				, TimeoutException, AdvertsMissingException
-																				, EngineClosedException{
+																				, EngineClosedException, NATNotSupportedException{
 		//TODO add more complex algorithm that will create the hierarchical dependencies.
 		
 		
@@ -534,6 +537,7 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 	 * @throws CommunicationLinkTimeoutException
 	 * @throws AdvertsMissingException 
 	 * @throws EngineClosedException 
+	 * @throws NATNotSupportedException 
 	 * @throws DirtyAdvertisementException 
 	 */
 	private Dependency getInputDependency( PipeID pattern_id, HierarchicalDependencyID id, long cycle_version
@@ -541,7 +545,7 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 																			, ClassNotFoundException
 																			, InterruptedException, TunnelNotAvailableException
 																			, CommunicationLinkTimeoutException
-																			, AdvertsMissingException, EngineClosedException
+																			, AdvertsMissingException, EngineClosedException, NATNotSupportedException
 																			{
 		if(EngineClosed ) throw new EngineClosedException( " getInputDependency " + id.toString()  );
 		//TODO add intermediate step that returns the ID that will be found on the Map based on the dependency that is requested

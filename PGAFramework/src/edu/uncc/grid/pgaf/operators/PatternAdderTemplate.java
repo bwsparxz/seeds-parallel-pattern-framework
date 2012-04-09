@@ -40,10 +40,10 @@ public class PatternAdderTemplate extends OrderedTemplate {
 		// Not used for this pattern. (because the Stencil and 
 		// the complete patterns use the loading pattern to 
 		//distribute the initial data.
-		
+		return SecondOperandAdvancedTemplate.SourceSinkSide( 
+				comm );
 		//a future modification to run a pipeline with an synch pattern 
 		//may require additional code in this method
-		return true;
 	}
 	/**
 	 * This method sets the first operands source and sink as the source and sink for 
@@ -58,6 +58,9 @@ public class PatternAdderTemplate extends OrderedTemplate {
 	public String getSuportedInterface() {
 		return ModuleAdder.class.getName();
 	}
+	/**
+	 * Is this called by a worker or a server ?
+	 */
 	@Override
 	public void setUserModule(BasicLayerInterface userModule) {
 		super.setUserModule(userModule);

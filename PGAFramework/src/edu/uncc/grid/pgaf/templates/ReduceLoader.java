@@ -7,6 +7,7 @@ import edu.uncc.grid.pgaf.datamodules.DataContainer;
 import edu.uncc.grid.pgaf.datamodules.DataMap;
 import edu.uncc.grid.pgaf.datamodules.EmptyData;
 import edu.uncc.grid.pgaf.datamodules.ReduceDataState;
+import edu.uncc.grid.pgaf.datamodules.ReduceDataStateImpl;
 import edu.uncc.grid.pgaf.datamodules.StencilData;
 import edu.uncc.grid.pgaf.interfaces.basic.Reduce;
 import edu.uncc.grid.pgaf.interfaces.basic.Stencil;
@@ -31,7 +32,7 @@ public class ReduceLoader extends PatternLoader{
 	@Override
 	public DataMap<String, Serializable> DiffuseDataUnit(int segment) {
 		DataMap<String, Serializable> map = new DataMap<String, Serializable>();
-		ReduceDataState data = new ReduceDataState();
+		ReduceDataState data = new ReduceDataStateImpl();
 		DataContainer container = new DataContainer( segment, data );
 		map.put(PatternLoader.INIT_DATA , container );
 		map.put(ReduceTemplate.CELL_COUNT

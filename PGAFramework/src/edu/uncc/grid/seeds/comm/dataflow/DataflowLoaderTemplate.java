@@ -21,6 +21,7 @@ import edu.uncc.grid.pgaf.communication.CommunicationLinkTimeoutException;
 import edu.uncc.grid.pgaf.communication.ConnectionManager;
 import edu.uncc.grid.pgaf.communication.MultiModePipeClient;
 import edu.uncc.grid.pgaf.communication.MultiModePipeDispatcher;
+import edu.uncc.grid.pgaf.communication.NATNotSupportedException;
 import edu.uncc.grid.pgaf.communication.nat.TunnelNotAvailableException;
 import edu.uncc.grid.pgaf.interfaces.advanced.UnorderedTemplate;
 import edu.uncc.grid.pgaf.p2p.NoPortAvailableToOpenException;
@@ -235,7 +236,7 @@ public class DataflowLoaderTemplate extends UnorderedTemplate {
 	}
 	private ConnectionManager getConnectiontoServer(PipeID pattern_id ) throws 
 								IOException, ClassNotFoundException, InterruptedException
-								, TunnelNotAvailableException, CommunicationLinkTimeoutException{
+								, TunnelNotAvailableException, CommunicationLinkTimeoutException, NATNotSupportedException{
 		ConnectionManager m_manager = null;
 
 		PipeID my_connection = IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID);

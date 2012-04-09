@@ -106,10 +106,11 @@ public class MultiModePipeDispatcher {
 	 * @throws IOException
 	 * @throws ClassNotFoundException 
 	 * @throws NoPortAvailableToOpenException 
+	 * @throws NATNotSupportedException 
 	 */
 	public MultiModePipeDispatcher(Node network, String thread_name, long segment, List<ConnectionManager> adv_user_list, PipeID pattern_id
 			,RawByteEncoder enc )  
-		throws InterruptedException, IOException, ClassNotFoundException, NoPortAvailableToOpenException{
+		throws InterruptedException, IOException, ClassNotFoundException, NoPortAvailableToOpenException, NATNotSupportedException{
 		
 		Context = network;
 		this.TunnelAvailable = false;
@@ -169,21 +170,22 @@ public class MultiModePipeDispatcher {
 		
 		/**if in NAT nat, request a hosted dispatcher. */
 		if( Node.getNetworkType() == Types.WanOrNat.NAT_NON_UPNP){
+			throw new NATNotSupportedException();
 			//create tunnel dispatcher
-			Node.getLog().log(Level.FINER, "Creating hosted dispatcher");
-			/**
-			 * Networks are known for their unpredictability.  If the computer is inside a very restricted network,
-			 * or the computer is running stand-alone, the tunnel may throw exceptions when it finds the network
-			 * is not up.  If this happens, the method getTunnel() will manage the exception and return a 
-			 * null.  
-			 */
+			/*Node.getLog().log(Level.FINER, "Creating hosted dispatcher");
+			//
+			// Networks are known for their unpredictability.  If the computer is inside a very restricted network,
+			// or the computer is running stand-alone, the tunnel may throw exceptions when it finds the network
+			// is not up.  If this happens, the method getTunnel() will manage the exception and return a 
+			// null.  
+			//
 			TunnelClient c = LeafWorker.getTunnel();
 			if( c != null){
 					c.requestSocketDispatcher(LinkAdvertisement, this.AdvanceUsersList);
 					TunnelAvailable = true;
 			}else{
 				TunnelAvailable = false;
-			}
+			}*/
 		}
 	
 		

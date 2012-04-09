@@ -12,6 +12,7 @@ import net.jxta.id.IDFactory;
 import net.jxta.peergroup.PeerGroupID;
 import net.jxta.pipe.PipeID;
 import edu.uncc.grid.pgaf.communication.Communicator;
+import edu.uncc.grid.pgaf.communication.NATNotSupportedException;
 import edu.uncc.grid.pgaf.datamodules.Data;
 import edu.uncc.grid.pgaf.datamodules.DataMap;
 import edu.uncc.grid.pgaf.p2p.NoPortAvailableToOpenException;
@@ -22,6 +23,11 @@ public class PatternAdderLoader extends PatternLoader {
 	
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public Data Deploy(DataMap input) {
 
@@ -103,6 +109,9 @@ public class PatternAdderLoader extends PatternLoader {
 		} catch (NoPortAvailableToOpenException e) {
 			Node.getLog().log(Level.FINER, Node.getStringFromErrorStack(e));
 			e.printStackTrace();
+		} catch (NATNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return input;
 	}
@@ -129,10 +138,49 @@ public class PatternAdderLoader extends PatternLoader {
 	}
 
 	@Override
+	public boolean hasComm() {
+		//TODO a hard coded true value should not happen.  this class should get the answer from 
+		//the second OTemplate in the pattern adder operator.
+		return true;
+	}
+
+	@Override
+	public Communicator getComm() throws InterruptedException, IOException,
+			ClassNotFoundException, NoPortAvailableToOpenException, NATNotSupportedException {
+		PipeID child_pattern_id_one = IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID, this.PatternID.toString().getBytes());
+		byte[] bytes = OperatorModule.sumByteArrays(PatternID.toString().getBytes(), child_pattern_id_one.toString().getBytes());
+		PipeID child_pattern_id_two = IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID, bytes);
+		Communicator comm2 = new Communicator(Framework, child_pattern_id_two
+				, -1 ); 
+		/*
+		 * this is a pratical solution to a problem.  the communicator should return the communicator for the sink/source node
+		 * At this point, I don'e expect the client/workers to use this method.
+		 * 
+		 * Also, note that only the second operator is used for a sink/source for a data flow.  The first operator is ignored.
+		 * This can change in the future, but for now only the second operator can be used for a data flow 
+		 * To be clear on terminology, a synchronouse pattern has a source and sink, but is is only used to distribute the 
+		 * initial data and gather the final data.  The workpool and pipeline has a sinck and source that send data througout 
+		 * the computation.  This is what we refer to as a data flow.  
+		 * 
+		 * So, if a pattern has a data_flow, it should return true in hasComm() and its communicator will be created by this 
+		 * method.  This method is helpfull to enable the pattern adder operator to work for interactivity controls and 
+		 * for visualization.
+		 * 
+		 */
+		//((PatternAdderTemplate)OTemplate).SecondOperandAdvancedTemplate.getCommunicationID());
+		return comm2;
+	}
+
+	@Override
 	public boolean instantiateSourceSink() {
-		return ((ModuleAdder) this.OTemplate.getUserModule())
-					.getFirstLoaderMod(this.PatternID)
-					.instantiateSourceSink();
+		ModuleAdder module_adder = ((ModuleAdder) this.OTemplate.getUserModule());
+		PatternLoader loader = module_adder.getSecondLoaderMod(this.PatternID);
+		
+		
+		
+		
+		
+		return loader.instantiateSourceSink();
 	}
 
 	@Override
@@ -141,5 +189,8 @@ public class PatternAdderLoader extends PatternLoader {
 			.getFirstLoaderMod(this.PatternID)
 			.initializeModule(args);
 	}
+	
+	
+	
 
 }

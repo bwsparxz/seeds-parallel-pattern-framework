@@ -95,8 +95,9 @@ public class Communicator {
 	 * @throws ClassNotFoundException 
 	 * @throws IOException 
 	 * @throws InterruptedException 
+	 * @throws NATNotSupportedException 
 	 */
-	public Communicator( Node net, PipeID pattern_id, long local_segment) throws InterruptedException, IOException, ClassNotFoundException, NoPortAvailableToOpenException{
+	public Communicator( Node net, PipeID pattern_id, long local_segment) throws InterruptedException, IOException, ClassNotFoundException, NoPortAvailableToOpenException, NATNotSupportedException{
 		PatternID = pattern_id;
 		Network = net;
 		PatternDispatcher = null;  //set dispatcher to inactive
@@ -159,8 +160,9 @@ public class Communicator {
 	 * @throws IOException 
 	 * @throws InterruptedException 
 	 * @throws ConnectionHibernatedException 
+	 * @throws NATNotSupportedException 
 	 */
-	public void BlockSend( Serializable obj, Long send_to_segment ) throws InterruptedException, IOException, ClassNotFoundException, TunnelNotAvailableException, CommunicationLinkTimeoutException, ConnectionHibernatedException{
+	public void BlockSend( Serializable obj, Long send_to_segment ) throws InterruptedException, IOException, ClassNotFoundException, TunnelNotAvailableException, CommunicationLinkTimeoutException, ConnectionHibernatedException, NATNotSupportedException{
 		Send( obj, send_to_segment);
 		/*TODO add contains method to connection manager so that we can check if the object is still in the send queue
 		* to do this, I need to verify that equal() default implementation will work.  this in conjuction with 
@@ -176,8 +178,9 @@ public class Communicator {
 	 * @throws TunnelNotAvailableException 
 	 * @throws ClassNotFoundException 
 	 * @throws ConnectionHibernatedException 
+	 * @throws NATNotSupportedException 
 	 */
-	public void Send( Serializable obj, Long send_to_segment) throws InterruptedException, IOException, ClassNotFoundException, TunnelNotAvailableException, CommunicationLinkTimeoutException, ConnectionHibernatedException{
+	public void Send( Serializable obj, Long send_to_segment) throws InterruptedException, IOException, ClassNotFoundException, TunnelNotAvailableException, CommunicationLinkTimeoutException, ConnectionHibernatedException, NATNotSupportedException{
 		//check to see if there is a pipe already for id segment
 		// 1.  check cache
 		ConnectionManager sender = null;
@@ -263,8 +266,9 @@ public class Communicator {
 	 * @throws ClassNotFoundException 
 	 * @throws IOException 
 	 * @throws CommunicationLinkTimeoutException 
+	 * @throws NATNotSupportedException 
 	 */
-	public Serializable BlockReceive(  Long receive_from_segment) throws InterruptedException, IOException, ClassNotFoundException, TunnelNotAvailableException, CommunicationLinkTimeoutException{
+	public Serializable BlockReceive(  Long receive_from_segment) throws InterruptedException, IOException, ClassNotFoundException, TunnelNotAvailableException, CommunicationLinkTimeoutException, NATNotSupportedException{
 		//TODO
 		ConnectionManager receiver = null;
 		Serializable ans = null;
@@ -325,10 +329,11 @@ public class Communicator {
 	 * @throws TunnelNotAvailableException 
 	 * @throws ClassNotFoundException 
 	 * @throws IOException 
+	 * @throws NATNotSupportedException 
 	 */
 	public void Receive( NonBlockReceiver recv, Long receive_from_segment) throws InterruptedException, IOException
 																				, ClassNotFoundException, TunnelNotAvailableException
-																				, CommunicationLinkTimeoutException{
+																				, CommunicationLinkTimeoutException, NATNotSupportedException{
 		ConnectionManager receiver = null;
 		// 1. check the cache for existing connections
 		String pipe_id = this.PipeMap.get(receive_from_segment);

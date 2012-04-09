@@ -63,6 +63,7 @@ public class Seeds {
 		if( basic != null){
 			Node.getLog().log(Level.INFO, " Waiting for Pattern Complete ");
 			basic.watiOnPatternDone();
+			Node.getLog().log(Level.INFO, " Pattern Completed ");
 		}else{
 			Node.getLog().log(Level.INFO, " Waiting for Pattern Complete Advertisement [NOT IMPLEMENTED JET]");
 			//the source-sink has to send a patter_done_advertisement

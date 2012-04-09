@@ -2,6 +2,7 @@ package edu.uncc.grid.pgaf.templates;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import edu.uncc.grid.pgaf.communication.CommunicationLinkTimeoutException;
 import edu.uncc.grid.pgaf.communication.Communicator;
@@ -45,12 +46,13 @@ public class ReduceTemplate extends OrderedTemplate{
 			Reduce user_mod  = (Reduce) this.UserModule;
 			
 			Data data = user_mod.WorkerSend(  LocalData );
-			++LocalData.IterationCount;
+			LocalData.advanceIteration();
 			if( data == null ){
 				DataInstructionContainer dat = new DataInstructionContainer();
 				dat.setControl(Types.DataControl.INSTRUCTION_JOBDONE);
 				dat.setInstruction(Types.DataInstruction.JOBDONE);
 				comm.Send( dat, -1L );
+				comm.hasSent();
 				return true;
 			}else{
 				comm.Send( data, -1L );
@@ -72,14 +74,16 @@ public class ReduceTemplate extends OrderedTemplate{
 			/**
 			 * Receives the data from every node.
 			 */
+			ArrayList<Data> list = new ArrayList<Data>();
 			for( long i = 0; i < user_mod.getCellCount(); i++ ){
 				Data data = (Data)comm.BlockReceive( i );
 				if( data.getControl() == Types.DataControl.INSTRUCTION_JOBDONE ){
 					++JobDone;
 				}else{
-					user_mod.ServerReduce( data );
+					list.add( data );
 				}
 			}
+			user_mod.ServerReduce( list );
 			if( JobDone == user_mod.getCellCount() ){
 				return true;
 			}else{

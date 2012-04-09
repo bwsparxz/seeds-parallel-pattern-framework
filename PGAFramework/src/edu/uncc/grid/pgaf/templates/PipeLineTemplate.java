@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import edu.uncc.grid.pgaf.communication.CommunicationConstants;
 import edu.uncc.grid.pgaf.communication.CommunicationLinkTimeoutException;
 import edu.uncc.grid.pgaf.communication.Communicator;
+import edu.uncc.grid.pgaf.communication.NATNotSupportedException;
 import edu.uncc.grid.pgaf.communication.nat.TunnelNotAvailableException;
 import edu.uncc.grid.pgaf.communication.shared.ConnectionHibernatedException;
 import edu.uncc.grid.pgaf.datamodules.Data;
@@ -104,6 +105,9 @@ public class PipeLineTemplate extends OrderedTemplate {
 		} catch (ConnectionHibernatedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NATNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return job_done;
 	}
@@ -172,6 +176,9 @@ public class PipeLineTemplate extends OrderedTemplate {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ConnectionHibernatedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NATNotSupportedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

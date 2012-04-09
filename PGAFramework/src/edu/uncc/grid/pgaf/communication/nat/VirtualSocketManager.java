@@ -28,7 +28,7 @@ import edu.uncc.grid.seeds.comm.dependency.HierarchicalDependencyID;
  * LeafWorker and the DirectorRDV, the user will see multiple connections represented by a list
  * of VirtualSocketManagers.
  * 
- * @deprecated  This class is deprecated for this branck DO NOT USE NAT ROUTING ONE DATA FLOW BRANCH
+ * @deprecated  This class is deprecated for this branch DO NOT USE NAT ROUTING ONE DATA FLOW BRANCH
  * 
  * @author jfvillal
  *

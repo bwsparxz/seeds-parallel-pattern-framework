@@ -39,7 +39,10 @@ import edu.uncc.grid.pgaf.p2p.Types;
  * 
  * 
  * @author jfvillal
- *
+ * 
+ * @deprecated
+ * We are no longer seeking inter-grid connections.  We are now focusing on the cloud and multi-core
+ *  This class will be removed from the framework soon !
  */
 
 public class TunnelManager {

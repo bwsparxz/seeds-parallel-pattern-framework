@@ -1,5 +1,7 @@
 package edu.uncc.grid.pgaf.interfaces.basic;
 
+import java.util.List;
+
 import edu.uncc.grid.pgaf.datamodules.Data;
 import edu.uncc.grid.pgaf.datamodules.ReduceDataState;
 import edu.uncc.grid.pgaf.interfaces.advanced.BasicLayerInterface;
@@ -38,9 +40,11 @@ public abstract class Reduce extends BasicLayerInterface {
 	 * The programmer should add enumeration to the data units if there is a need to identify
 	 * the individual pieces before being displayed or saved.
 	 * @param segment
-	 * @param data
+	 * @param data an array of size getCellCount() with the piece of data sent by every
+	 *		worker node in the pattern
+	 *  
 	 */
-	public abstract void ServerReduce( Data data);
+	public abstract void ServerReduce( List<Data> data);
 	
 	@Override
 	public String getHostingTemplate() {

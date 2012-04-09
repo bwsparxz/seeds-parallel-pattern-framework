@@ -5,6 +5,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 
 import net.jxta.pipe.PipeID;
+import edu.uncc.grid.pgaf.communication.NATNotSupportedException;
 import edu.uncc.grid.pgaf.communication.nat.TunnelNotAvailableException;
 import edu.uncc.grid.pgaf.p2p.Node;
 import edu.uncc.grid.seeds.comm.dependency.AdvertsMissingException;
@@ -62,6 +63,9 @@ public class StablishInputConnections extends Thread {
 				} catch (TimeoutException e) {
 					e.printStackTrace();
 				} catch (EngineClosedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NATNotSupportedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} 

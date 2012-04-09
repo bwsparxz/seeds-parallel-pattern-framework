@@ -41,7 +41,8 @@ import net.jxta.socket.JxtaServerSocket;
  * to deal with Interrupts, they don't use much CPU power.
  * 
  * @author jfvillal
- *
+ *@deprecated We are no longer seeking inter-grid connections.  We are now focusing on the cloud and multi-core
+ *  This class will be removed from the framework soon !
  */
 public class TunnelBoringModule {
 	private List<TunnelServer> Q;

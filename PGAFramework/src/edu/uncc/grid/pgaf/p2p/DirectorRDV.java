@@ -223,7 +223,8 @@ public class DirectorRDV {
 		/**
 		 * Creates and mainteing tunnel to LW that need them
 		 **/
-		TunnelBoringModule Tbm;
+		//the tbm is out.  The actual code will be deleted after testing
+		//TunnelBoringModule Tbm;
 		/**
 		  *The pipe is used to tunnel information to NAT-restricted
 		  *nodes.
@@ -267,8 +268,8 @@ public class DirectorRDV {
 				 * Start the thread that create tunnels for the NAT nodes
 				 */
 				Node.getLog().log(Level.FINE, "Starting Tunnel Dispatcher...");
-				Tbm = new TunnelBoringModule(this.TunnelPipeID, rdv.ParentNode);
-				Tbm.startThreads();
+				//Tbm = new TunnelBoringModule(this.TunnelPipeID, rdv.ParentNode);
+				//Tbm.startThreads();
 				IncrementalSleeper sleeper = new IncrementalSleeper();
 				while( !stop ){	
 					/**
@@ -488,12 +489,9 @@ public class DirectorRDV {
 				
 				//close all the VirtualPipes
 				Node.getLog().log(Level.FINE, "RDV Closing Tunnel Boring Module ");
-				this.Tbm.stopThreads();
+				//this.Tbm.stopThreads();
 				Node.getLog().log(Level.FINE, "RDV Closing Tunnel Boring Module -- DONE");
 			
-			}catch (IOException e){
-				System.err.println("An irrecoverable error happened at initiation or an error happening while closing down.");
-				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

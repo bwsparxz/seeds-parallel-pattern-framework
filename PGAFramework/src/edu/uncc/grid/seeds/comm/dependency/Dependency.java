@@ -15,6 +15,7 @@ import edu.uncc.grid.pgaf.communication.ConnectionChangeListener;
 import edu.uncc.grid.pgaf.communication.ConnectionChangedMessage;
 import edu.uncc.grid.pgaf.communication.ConnectionManager;
 import edu.uncc.grid.pgaf.communication.MultiModePipeClient;
+import edu.uncc.grid.pgaf.communication.NATNotSupportedException;
 import edu.uncc.grid.pgaf.communication.nat.TunnelNotAvailableException;
 import edu.uncc.grid.pgaf.communication.shared.ConnectionHibernatedException;
 import edu.uncc.grid.pgaf.p2p.Node;
@@ -171,6 +172,7 @@ public class Dependency implements ConnectionChangeListener{
 	
 	/**
 	 * Client Side
+	 * @throws NATNotSupportedException 
 	 * @throws DirtyAdvertisementException 
 	 */
 	public Dependency(Hida connection_info, DependencyEngine engine
@@ -179,6 +181,7 @@ public class Dependency implements ConnectionChangeListener{
 																	) throws IOException, ClassNotFoundException
 																	, InterruptedException, TunnelNotAvailableException
 																	, CommunicationLinkTimeoutException, AdvertsMissingException
+																	, NATNotSupportedException
 																	{ 
 		this( null, connection_info,  engine, hid_source, cycle_version, handler);
 	}
@@ -195,13 +198,14 @@ public class Dependency implements ConnectionChangeListener{
 	 * @param connection_info a Hida object that has all the advertisements necesary to connect to this 
 	 * 		dependency.  If an advert is missing, a {@link AdvertsMissingException} is thrown.
 	 * @param hid_source stores the actual dependency to which the advanced user wants to connect.
+	 * @throws NATNotSupportedException 
 	 */
 	private Dependency( Dependency parent, Hida connection_info, DependencyEngine engine
 						, HierarchicalDependencyID hid_source , long cycle_version
 						, SplitCoalesceHandler handler
 																	) throws IOException, ClassNotFoundException
 																	, InterruptedException, TunnelNotAvailableException
-																	, CommunicationLinkTimeoutException, AdvertsMissingException
+																	, CommunicationLinkTimeoutException, AdvertsMissingException, NATNotSupportedException
 																	{
 		//if this is top hida, just create a connetion children null
 		
@@ -472,6 +476,10 @@ public class Dependency implements ConnectionChangeListener{
 			} catch (AdvertsMissingException e) {
 				e.printStackTrace();
 			} //50 seconds
+			catch (NATNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		

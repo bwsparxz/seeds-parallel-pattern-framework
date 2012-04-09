@@ -54,7 +54,7 @@ public class LeafWorker {
 	
 	
 	/**The {@link ClientTunnel} variable used to manage the NAT tunnel.  */
-	public static TunnelClient Tunnel;
+	//public static TunnelClient Tunnel;
 	/**The {@link PipeID} used to connect the tunnel socket*/
 	//public static PipeID TunnelPipeID;
 	public static DirectorRDVAdvertisement DirectorRDVInfo;
@@ -102,7 +102,7 @@ public class LeafWorker {
 		DependencyMapper.initDependencyMapper();
 		
 		DirectorRDVInfo = null;
-		Tunnel = null;
+		//Tunnel = null;
 	}
 	
 	//static ClientSocketManager GenericLink;
@@ -140,10 +140,10 @@ public class LeafWorker {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static TunnelClient getTunnel() throws IOException, ClassNotFoundException{
-		/**
-		 * Create a Tunnel if the I am NAT and we have a TunnelPipeID and The Tunnel has not being created 
-		 */
+	/*public static TunnelClient getTunnel() throws IOException, ClassNotFoundException{
+		///
+		/// Create a Tunnel if the I am NAT and we have a TunnelPipeID and The Tunnel has not being created 
+		///
 		if( 	Node.getNetworkType() == Types.WanOrNat.NAT_NON_UPNP  //I am NAT so I need the Tunnel 
 				&& DirectorRDVInfo  != null					  //I have a DRDV to connect the Tunnel to
 				&& LeafWorker.Tunnel == null						  //I have not initialized the Tunnel yet
@@ -160,15 +160,16 @@ public class LeafWorker {
 		if( Tunnel != null){
 			synchronized( Tunnel){
 				LeafWorker.Tunnel.close();
-				/**
-				 * I use null as a way to tell the tunnel is not activate
-				 * so, lets make sure the Tunnel is set to null when not
-				 * connected
-				 */
+				//
+				// I use null as a way to tell the tunnel is not activate
+				// so, lets make sure the Tunnel is set to null when not
+				// connected
+				//
 				LeafWorker.Tunnel = null;
 			}
 		}
 	}
+	*/
 
 	/**
 	 * It run the main method from LeafWorker.  A similar method exists on DirectorRDV.
@@ -216,14 +217,14 @@ public class LeafWorker {
 		 */
 		querier.run();
 		
-		Node.getLog().log(Level.FINE, "LEAF Closing Tunnel Client ");
+		/*Node.getLog().log(Level.FINE, "LEAF Closing Tunnel Client ");
 		try {
 			LeafWorker.DeactivateTunnel();
 		} catch (IOException e) {
 			Node.getLog().log(Level.SEVERE, Node.getStringFromErrorStack(e));
 		} catch (InterruptedException e) {
 			Node.getLog().log(Level.SEVERE, Node.getStringFromErrorStack(e));
-		}
+		}*/
 		Node.getLog().log(Level.INFO, "Shutting down... Uptime: " + ParentNode.getUptime() );
 	}
 	public void Log( String str ){
@@ -378,11 +379,11 @@ public class LeafWorker {
 					 * The tunnel is for nodes behind NAT's.
 					 * 
 					 */
-					if( Tunnel != null ){
+					/*if( Tunnel != null ){
 						synchronized(Tunnel){
 								Tunnel.handleInstructionContainer();		
 						}
-					}
+					}*/
 					
 				}//end while
 				
@@ -542,16 +543,12 @@ public class LeafWorker {
 									e.printStackTrace();
 								}
 		            			
-		            			try {
-									ParentNode.getNetManager().stopNetwork();
-									if( Tunnel != null){
-										LeafWorker.Tunnel.close();
-									}
-									System.exit(1);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
 		            			
+								ParentNode.getNetManager().stopNetwork();
+								/*if( Tunnel != null){
+									LeafWorker.Tunnel.close();
+								}*/
+								System.exit(1);
 								
 		            		}
 		            		discovery_service.flushAdvertisement(advert);
@@ -564,7 +561,7 @@ public class LeafWorker {
 	        this.DicoverySleeper.sleep();
 		}	
 	}
-	public static void setTunnel(TunnelClient tunnel) {
+	/*public static void setTunnel(TunnelClient tunnel) {
 		Tunnel = tunnel;
-	}
+	}*/
 }

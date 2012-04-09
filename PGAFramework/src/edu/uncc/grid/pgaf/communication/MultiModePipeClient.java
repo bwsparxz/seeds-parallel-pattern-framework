@@ -52,6 +52,7 @@ public abstract class MultiModePipeClient {
 	 * @throws InterruptedException
 	 * @throws TunnelNotAvailableException
 	 * @throws CommunicationLinkTimeoutException
+	 * @throws NATNotSupportedException 
 	 * @throws DirtyAdvertisementException 
 	 */
 	public static ConnectionManager getClientConnection(	Node net
@@ -65,7 +66,7 @@ public abstract class MultiModePipeClient {
 															, long timeout) 
 										throws 	IOException, ClassNotFoundException
 												, InterruptedException, TunnelNotAvailableException
-												, CommunicationLinkTimeoutException{
+												, CommunicationLinkTimeoutException, NATNotSupportedException{
 		ConnectionManager m_manager = null;
 		long time = System.currentTimeMillis();
 		while( 
@@ -107,6 +108,7 @@ public abstract class MultiModePipeClient {
 	 * @throws IOException 
 	 * @throws InterruptedException 
 	 * @throws TunnelNotAvailableException 
+	 * @throws NATNotSupportedException 
 	 * @throws DirtyAdvertisementException 
 	 */
 	public static ConnectionManager getClientConnection(	Node network          //network context
@@ -119,7 +121,7 @@ public abstract class MultiModePipeClient {
 															, RawByteEncoder enc
 														) 
 				throws IOException, ClassNotFoundException, InterruptedException
-				, TunnelNotAvailableException{
+				, TunnelNotAvailableException, NATNotSupportedException{
 		ConnectionManager ans = null;
 		
 		new LinkQuery( DataLinkAdvertisement.DataIDTag, ""+segment, network);
@@ -238,6 +240,7 @@ public abstract class MultiModePipeClient {
 						}*/
 					}
 			}else{
+				throw new NATNotSupportedException();
 				/** if I am NAT
 				 * Then We need to requestJxtaVirtualSocket to the RDV's Tunnel except if the
 				 * Connection Server has the same GridName, in that case we can connect as if 
@@ -249,7 +252,7 @@ public abstract class MultiModePipeClient {
 				 * 		is the case where the conection goes through two Tunnels, the Socket's
 				 * 		Server Tunnel, and the Client Sockte's Tunnel
 				 */
-				TunnelClient c = null; 
+				/*TunnelClient c = null; 
 				if( adv.getGridName().compareTo(Node.getGridName()) != 0 ){ //this if statement makes absolute sure the tunnel is needed.
 					for( int i = 0; i < 5; i++){
 						c = LeafWorker.getTunnel();
@@ -269,7 +272,7 @@ public abstract class MultiModePipeClient {
 										, local_pipe, local_segment);//.getWanAddress(), adv.getPort(), adv.getRDataLinkPipeID());
 					Node.getLog().log(Level.FINER, "Client is NAT connection to NAT using remote pipe");
 					ans = man;
-				}else{
+				}else{*/
 					/**
 					 *The three remaining cases are treated in two cases:
 					 * 1.Remote WAN and GridName not the same
@@ -286,7 +289,7 @@ public abstract class MultiModePipeClient {
 					 *   restricted Nodes will allow this connection if it is initiated on the 
 					 *   local node.
 					 */
-					if( Node.getGridName().compareTo(adv.getGridName()) == 0){
+				/*	if( Node.getGridName().compareTo(adv.getGridName()) == 0){
 						//if( network.isJavaSocketPort()){
 							JavaClientSocketManager man = new JavaClientSocketManager( adv.getLanAddress() 
 																					, adv.getPort()
@@ -296,29 +299,23 @@ public abstract class MultiModePipeClient {
 																					,dependency_id, enc);
 							ans = man;
 							Node.getLog().log(Level.FINER, "Client is NAT connection to WAN using standar, we have the same GridName (Java Socket)");
-						/*}else{
-							JxtaClientSocketManager man = new JxtaClientSocketManager( network 
-									,  AdvertFactory.GetDataLinkPipeAdvertisement(adv.getDataLinkPipeID() )
-									, local_pipe, local_segment);
-							Node.getLog().log(Level.FINER, "Client is NAT connection to WAN using standar, we have the same GridName (Jxta Socket)");
-							ans = man;
-						}*/
+						
 					}else{
-						/* Jul 28
-						 * This case could also try to connect directly using a ClientsocketManager.  This may work for nodes like workstation
-						 * that can connect to servers on the internet, but would not be able to receive connection from outside.
-						 * Still, a test would be need to know if it is a LAN_LOCKED node or a NAT node.  LAN_LOCKEd would be like coit-grid05 that
-						 * can reach other servers with access to the Internet, but does not have any type of gateway to reach
-						 * the Internet itself.
-						 * 
-						 * This node is NAT conecting to a WAN remote pipe.
-						 */
+						// Jul 28
+						// This case could also try to connect directly using a ClientsocketManager.  This may work for nodes like workstation
+						// that can connect to servers on the internet, but would not be able to receive connection from outside.
+						// Still, a test would be need to know if it is a LAN_LOCKED node or a NAT node.  LAN_LOCKEd would be like coit-grid05 that
+						// can reach other servers with access to the Internet, but does not have any type of gateway to reach
+						// the Internet itself.
+						// 
+						// This node is NAT conecting to a WAN remote pipe.
+						///
 						VirtualSocketManager man = c.requestVirtualSocket(adv, false
 														, local_pipe, local_segment);//.getDataLinkPipeID());
 						Node.getLog().log(Level.FINER, "Client is NAT connection to WAN using remote pipe we have diferent GridNames");
 						ans = man;
 					}
-				}
+				}*/
 			}
 		}
 		
