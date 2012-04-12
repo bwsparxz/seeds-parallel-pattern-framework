@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import edu.uncc.grid.pgaf.datamodules.AllToAllData;
+import edu.uncc.grid.pgaf.datamodules.ReduceDataState;
 /**
  * Shows a simple program that takes the number count from its neighbors
  * and adds one to the count.
@@ -20,22 +21,27 @@ import edu.uncc.grid.pgaf.datamodules.AllToAllData;
  * 
  * @author jfvillal
  */
-public class DataForAll implements AllToAllData {
+public class DataForAll implements AllToAllData, ReduceDataState {
   /**
 	* 
 	*/
 	private static final long serialVersionUID = 1L;
+	private static final String ReportIteration  = null;
 	private int count;
 	private int IterationCount;
-	public int getIterationCount(){
+	private int mReportIteration;
+	
+	
+	public int getProblemIteration() {
 		return IterationCount;
 	}
-	public void advanceIteration(){
+	public void advanceProblemIteration(){
 		++IterationCount;
 	}
 	public DataForAll( ){
 	    count = 1;
 	    IterationCount = 0;
+	    mReportIteration = 0;
 	}
 	public void setCount(int c ){
 		count = c;
@@ -53,4 +59,14 @@ public class DataForAll implements AllToAllData {
 	public Serializable getSyncData() {
 		return count;
 	}
+	@Override
+	public void advanceIteration() {
+		++mReportIteration;
+		
+	}
+	@Override
+	public int getIteration() {
+		return mReportIteration;
+	}
+
 }
