@@ -83,7 +83,6 @@ public class Seeds {
 		try {
 			SeedsDeployer.getLocalMachineNode().setStopNetwork(true);
 			LocalNodeThread.join(1000);
-			System.out.println(" Done waiting for the localnodethread ");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

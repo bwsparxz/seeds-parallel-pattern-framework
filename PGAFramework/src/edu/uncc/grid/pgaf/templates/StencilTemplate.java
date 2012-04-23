@@ -42,12 +42,12 @@ public class StencilTemplate extends OrderedTemplate {
 	int LoopCount;
 	int Segment;
 	
-	BufferedWriter PerformanceReportWriter;
+	//BufferedWriter PerformanceReportWriter;
 	
 	public StencilTemplate(Node n) {
 		super(n);
 		LoopCount = 0;
-		PerformanceReportWriter = null;
+		//PerformanceReportWriter = null;
 		
 	}
 
@@ -194,11 +194,11 @@ public class StencilTemplate extends OrderedTemplate {
 		boolean ans = user_mod.OneIterationCompute( LocalData );
 		long stop_compt_timer = System.nanoTime() - set_comm_timer;
 		
-		try {
+		/*try {
 			this.PerformanceReportWriter.append("(nanos) comm: " + stop_comm_timer + ":compute:" + stop_compt_timer + "\n");
 		} catch (IOException e) {
 			Node.getLog().log(Level.FINEST,Node.getStringFromErrorStack(e));
-		}
+		}*/
 		//Done computing.  ready for the next round.
 		
 		//return !(++LoopCount < user_mod.getIterations() ); //the user could use this to tell the framework, this cell is done.

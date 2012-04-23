@@ -88,5 +88,14 @@ public class ReduceLoader extends PatternLoader{
 	public boolean isOperator(){
 		return false;
 	}
+	/**
+	 * Used to tell the loader or the operator manager that this class does support
+	 * a data stream source and sink ( should be better named in the future )
+	 */
+	@Override
+	public boolean hasComm() {
+		return true;
+	}
 
+	
 }

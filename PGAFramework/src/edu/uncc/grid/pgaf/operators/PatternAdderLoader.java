@@ -137,13 +137,20 @@ public class PatternAdderLoader extends PatternLoader {
 					.getDataUnitCount();
 	}
 
+	/**
+	 * returns the hasComm() from the second operator.
+	 * TODO: both second and the first operators should be able to run a data stream from the 
+	 * master node.  Also the pattern adder operator should work for n patterns, not just two.
+	 */
 	@Override
 	public boolean hasComm() {
-		//TODO a hard coded true value should not happen.  this class should get the answer from 
-		//the second OTemplate in the pattern adder operator.
-		return true;
+		ModuleAdder module_adder = ((ModuleAdder) this.OTemplate.getUserModule());
+		PatternLoader loader = module_adder.getSecondLoaderMod(this.PatternID);
+		return loader.hasComm();
 	}
-
+	/**
+	 * Returns the communicator from the second pattern.
+	 */
 	@Override
 	public Communicator getComm() throws InterruptedException, IOException,
 			ClassNotFoundException, NoPortAvailableToOpenException, NATNotSupportedException {
