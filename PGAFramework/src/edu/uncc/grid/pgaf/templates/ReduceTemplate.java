@@ -46,7 +46,7 @@ public class ReduceTemplate extends OrderedTemplate{
 		try {
 			Reduce user_mod  = (Reduce) this.UserModule;
 			
-			Data data = user_mod.WorkerSend(  LocalData );
+			Serializable data = user_mod.WorkerSend(  LocalData );
 			LocalData.advanceIteration();
 			if( data == null ){
 				DataInstructionContainer dat = new DataInstructionContainer();
@@ -81,11 +81,13 @@ public class ReduceTemplate extends OrderedTemplate{
 			/**
 			 * Receives the data from every node.
 			 */
-			ArrayList<Data> list = new ArrayList<Data>();
+			ArrayList<Serializable> list = new ArrayList<Serializable>();
 			for( long i = 0; i < user_mod.getCellCount(); i++ ){
-				Data data = (Data)comm.BlockReceive( i );
-				if( data.getControl() == Types.DataControl.INSTRUCTION_JOBDONE ){
-					++JobDone;
+				Serializable data = (Data)comm.BlockReceive( i );
+				if( data instanceof Data ){
+					if( ((Data)data).getControl() == Types.DataControl.INSTRUCTION_JOBDONE ){
+						++JobDone;
+					}
 				}else{
 					list.add( data );
 				}

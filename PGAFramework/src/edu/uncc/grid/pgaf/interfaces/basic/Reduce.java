@@ -1,5 +1,6 @@
 package edu.uncc.grid.pgaf.interfaces.basic;
 
+import java.io.Serializable;
 import java.util.List;
 
 import edu.uncc.grid.pgaf.datamodules.Data;
@@ -26,7 +27,7 @@ public abstract class Reduce extends BasicLayerInterface {
 	 * @return the data object to be sent to the sink node.  return null to end the pattern. 
 	 *   All nodes should end at the same time.
 	 */
-	public abstract  Data WorkerSend(ReduceDataState input);
+	public abstract  Serializable WorkerSend(ReduceDataState input);
 	/**
 	 * This method is called on the server-side to receive the data emmitted by the workers.
 	 * The total number of pattern nodes is the number of data units returned in this method.  
@@ -44,7 +45,7 @@ public abstract class Reduce extends BasicLayerInterface {
 	 *		worker node in the pattern
 	 *  
 	 */
-	public abstract void ServerReduce( List<Data> data);
+	public abstract void ServerReduce( List<Serializable> data);
 	
 	@Override
 	public String getHostingTemplate() {
