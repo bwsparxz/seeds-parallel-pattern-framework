@@ -4,7 +4,7 @@ import net.jxta.pipe.PipeID;
 import edu.uncc.grid.pgaf.Anchor;
 import edu.uncc.grid.pgaf.Operand;
 import edu.uncc.grid.pgaf.Seeds;
-import edu.uncc.grid.pgaf.p2p.Types.DataFlowRoll;
+import edu.uncc.grid.pgaf.p2p.Types.DataFlowRole;
 
 public class RunTest {
 	/**
@@ -17,7 +17,7 @@ public class RunTest {
 		Seeds.start("/rzone/Academia/Seeds2.0/lab/pgaf", false);
 		
 		Operand s = new Operand(   (String) null
-                , new Anchor("Kronos", DataFlowRoll.SINK_SOURCE)
+                , new Anchor("Kronos", DataFlowRole.SINK_SOURCE)
                 , pi );
 		
 		PipeID id = Seeds.startPattern( s );
