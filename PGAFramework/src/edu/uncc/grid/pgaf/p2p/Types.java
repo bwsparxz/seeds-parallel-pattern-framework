@@ -27,7 +27,7 @@ public class Types{
 	 * @author jfvillal
 	 *
 	 */
-	public static enum DataFlowRoll{
+	public static enum DataFlowRole{
 		SINK ,
 		SOURCE,
 		SINK_SOURCE,

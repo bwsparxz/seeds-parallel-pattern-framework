@@ -13,7 +13,7 @@ import edu.uncc.grid.pgaf.interfaces.advanced.UnorderedTemplate;
 import edu.uncc.grid.pgaf.p2p.LeafWorker;
 import edu.uncc.grid.pgaf.p2p.Node;
 import edu.uncc.grid.pgaf.p2p.Types;
-import edu.uncc.grid.pgaf.p2p.Types.DataFlowRoll;
+import edu.uncc.grid.pgaf.p2p.Types.DataFlowRole;
 import edu.uncc.grid.seeds.comm.dependency.DependencyMapper;
 /**
  * 
@@ -36,7 +36,7 @@ public class UserThread extends Thread {
 	/**
 	 * The DataFlow roll for this node
 	 */
-	Types.DataFlowRoll DataFlow;
+	Types.DataFlowRole DataFlow;
 	/**
 	 * The pattern id for the pattern that will be performed
 	 */
@@ -49,7 +49,7 @@ public class UserThread extends Thread {
 	boolean ProcessDone;
 	boolean PatternIsDone;
 	
-	public UserThread( Worker w, UnorderedTemplate adv_temp, Types.DataFlowRoll data_flow, PipeID pattern_id){
+	public UserThread( Worker w, UnorderedTemplate adv_temp, Types.DataFlowRole data_flow, PipeID pattern_id){
 		LWorker = w;
 		AdvancedTemplate = adv_temp;
 		DataFlow = data_flow;

@@ -41,7 +41,7 @@ public class PipeLineDataflow extends Dataflow implements SplitCoalesceHandler {
 	public boolean computeOneCycle() {
 		PipeLine UserMod = (PipeLine) this.getUserModule();
 		try {
-			if( getDataFlowRoll() == Types.DataFlowRoll.SOURCE ){
+			if( getDataFlowRoll() == Types.DataFlowRole.SOURCE ){
 				if(DataNum < UserMod.getDataCount()){
 					Serializable obj = UserMod.DiffuseData( DataNum );
 					
@@ -56,7 +56,7 @@ public class PipeLineDataflow extends Dataflow implements SplitCoalesceHandler {
 					++DataNum;
 					return false;
 				}
-			} else if( getDataFlowRoll() == Types.DataFlowRoll.SINK ){
+			} else if( getDataFlowRoll() == Types.DataFlowRole.SINK ){
 				Serializable packet = null;
 				try {
 					++counter;
@@ -267,7 +267,7 @@ public class PipeLineDataflow extends Dataflow implements SplitCoalesceHandler {
 				flow.setInputDependencyIDs(in);
 				flow.setOutputDependencyIDs(out);
 				flow.setCycleVersion(this.getCycleVersion());
-				flow.setDataFlowRoll(Types.DataFlowRoll.COMPUTE);
+				flow.setDataFlowRoll(Types.DataFlowRole.COMPUTE);
 				//flow.DebugCountCycles = this.DebugCountCycles;
 				ans.add(flow);
 			}

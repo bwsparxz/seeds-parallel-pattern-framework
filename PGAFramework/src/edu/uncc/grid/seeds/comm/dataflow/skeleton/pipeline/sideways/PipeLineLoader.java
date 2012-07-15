@@ -62,7 +62,7 @@ public class PipeLineLoader extends DataflowLoader {
 			flow.setSegID(seg_id);
 			flow.setOutputDependencyIDs(output_list);
 			flow.setInputDependencyIDs(null);
-			flow.setDataFlowRoll(Types.DataFlowRoll.SOURCE);
+			flow.setDataFlowRoll(Types.DataFlowRole.SOURCE);
 		}else if(segment == Dataflow.DATAFLOW_SINK){
 			//just input
 			HierarchicalSegmentID seg_id = new HierarchicalSegmentID( min_cpu, 1);
@@ -72,7 +72,7 @@ public class PipeLineLoader extends DataflowLoader {
 			flow.setSegID(seg_id);
 			flow.setInputDependencyIDs( input_list );
 			flow.setOutputDependencyIDs( null );
-			flow.setDataFlowRoll(Types.DataFlowRoll.SINK);
+			flow.setDataFlowRoll(Types.DataFlowRole.SINK);
 		}else{
 			flow = new PipeLineDataflow( start_seg, end_seg );
 			flow.setCycleVersion(0L);
@@ -100,7 +100,7 @@ public class PipeLineLoader extends DataflowLoader {
 			flow.setSegID(seg_id);
 			flow.setInputDependencyIDs(input_list);
 			flow.setOutputDependencyIDs(output_list);
-			flow.setDataFlowRoll(Types.DataFlowRoll.COMPUTE);
+			flow.setDataFlowRoll(Types.DataFlowRole.COMPUTE);
 			
 		}
 		

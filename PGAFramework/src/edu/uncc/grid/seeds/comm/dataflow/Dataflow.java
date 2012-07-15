@@ -55,7 +55,7 @@ public abstract class Dataflow  implements Data, Comparable<Dataflow>{
 	 * Like the MPI-Like pattern prototype, this prototype needs the dataflow to 
 	 * be identified as COMPUTE, SOURCE, or SINK.
 	 */
-	protected Types.DataFlowRoll mDataflowRoll;
+	protected Types.DataFlowRole mDataflowRoll;
 	/**
 	 * Determines if the dataflow is in hibernation status.  The hibernation status
 	 * is used to signal the dataflow either needs to be split, or it needs to be
@@ -340,14 +340,14 @@ public abstract class Dataflow  implements Data, Comparable<Dataflow>{
 	 * Returns the dataflow roll.
 	 * @return
 	 */
-	public Types.DataFlowRoll getDataFlowRoll() {
+	public Types.DataFlowRole getDataFlowRoll() {
 		return mDataflowRoll;
 	}
 	/**
 	 *  Sets the roll  
 	 * @param dataFlow
 	 */
-	public void setDataFlowRoll(Types.DataFlowRoll dataFlow) {
+	public void setDataFlowRoll(Types.DataFlowRole dataFlow) {
 		mDataflowRoll = dataFlow;
 	}
 	@Override

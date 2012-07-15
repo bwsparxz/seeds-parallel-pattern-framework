@@ -38,7 +38,7 @@ public class ScoutNetwork {
 					new Operand( 
 							new String[]{ args[2], ""+0}  
 							, new Anchor( args[1]  
-							, Types.DataFlowRoll.SINK_SOURCE), net_scout ) 
+							, Types.DataFlowRole.SINK_SOURCE), net_scout ) 
 					);
 			Seeds.waitOnPattern(id);
 			long time = System.currentTimeMillis() - start ;

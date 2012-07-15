@@ -36,7 +36,7 @@ public class PipeLineDataflow extends Dataflow implements SplitCoalesceHandler {
 	public boolean computeOneCycle() {
 		PipeLine UserMod = (PipeLine) this.getUserModule();
 		try {
-			if( getDataFlowRoll() == Types.DataFlowRoll.SOURCE ){
+			if( getDataFlowRoll() == Types.DataFlowRole.SOURCE ){
 				if(DataNum < UserMod.getDataCount()){
 					Serializable obj = UserMod.DiffuseData( DataNum );
 					
@@ -52,7 +52,7 @@ public class PipeLineDataflow extends Dataflow implements SplitCoalesceHandler {
 					++DataNum;
 					return false;
 				}
-			} else if( getDataFlowRoll() == Types.DataFlowRoll.SINK ){
+			} else if( getDataFlowRoll() == Types.DataFlowRole.SINK ){
 				Serializable packet = null;
 				try {
 					++counter;
@@ -239,7 +239,7 @@ public class PipeLineDataflow extends Dataflow implements SplitCoalesceHandler {
 			HierarchicalDependencyID[] out = {new HierarchicalDependencyID(seg_id_one, 1, 1)};
 			one.setOutputDependencyIDs(out);
 			one.setCycleVersion(this.getCycleVersion());
-			one.setDataFlowRoll(Types.DataFlowRoll.COMPUTE);
+			one.setDataFlowRoll(Types.DataFlowRole.COMPUTE);
 			//System.out.println(" one in:"  + one.getInputDependencyIDs()[0].toString() + " out: " + one.getOutputDependencyIDs()[0].toString() );
 			
 			HierarchicalSegmentID seg_id_two = new HierarchicalSegmentID( 2, 2, this.getSegID());
@@ -260,7 +260,7 @@ public class PipeLineDataflow extends Dataflow implements SplitCoalesceHandler {
 			two.setInputDependencyIDs( out );
 			two.setOutputDependencyIDs(this.getOutputDependencyIDs());
 			two.setCycleVersion(this.getCycleVersion());
-			two.setDataFlowRoll(Types.DataFlowRoll.COMPUTE);
+			two.setDataFlowRoll(Types.DataFlowRole.COMPUTE);
 			//System.out.println(" two in:"  + two.getInputDependencyIDs()[0].toString() + " out: " + two.getOutputDependencyIDs()[0].toString() );
 			ans.add(one);
 			ans.add(two);

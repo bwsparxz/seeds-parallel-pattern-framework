@@ -929,7 +929,7 @@ public class Node {
 		if( pattern.getPatternAnchor() == null){
 			Advert.setSourceAnchor(InetAddress.getLocalHost().getHostName()); //by default it is 'this' host
 		}else{
-			if( pattern.getPatternAnchor().getAnchorDFR() != Types.DataFlowRoll.SINK_SOURCE){
+			if( pattern.getPatternAnchor().getAnchorDFR() != Types.DataFlowRole.SINK_SOURCE){
 				Advert.setSourceAnchor(InetAddress.getLocalHost().getHostName()); //by default it is 'this' host
 			}else{
 				Advert.setSourceAnchor(pattern.getPatternAnchor().getHostname());

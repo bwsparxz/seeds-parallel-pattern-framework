@@ -210,7 +210,7 @@ public class Worker implements DiscoveryListener{
 				         			
 				         		}
 				         		
-				         		UserThread sink_source = new UserThread( this, T, Types.DataFlowRoll.SINK_SOURCE, advert.getPatternID());
+				         		UserThread sink_source = new UserThread( this, T, Types.DataFlowRole.SINK_SOURCE, advert.getPatternID());
 				         		sink_source.setName("Seeds SinkSource Thread");
 				         		sink_source.setDaemon(true);
 				         		sink_source.start();
@@ -334,7 +334,7 @@ public class Worker implements DiscoveryListener{
 															, null, adv.getArguments()
 															, adv.getPatternID(), false);
 																		//don't use local mod, these are worker mods.
-		ModThread[core_num] = new UserThread(this, T, Types.DataFlowRoll.COMPUTE, adv.getPatternID());
+		ModThread[core_num] = new UserThread(this, T, Types.DataFlowRole.COMPUTE, adv.getPatternID());
 		ModThread[core_num].setName("Seeds Worker process: " + core_num);
 		ModThread[core_num].start();
 		Node.getLog().log(Level.INFO, "Created a COMPUTE node for id: " + adv.getID().toString() );

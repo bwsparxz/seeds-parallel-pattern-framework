@@ -34,7 +34,7 @@ import edu.uncc.grid.pgaf.advertisement.SpawnPatternAdvertisement;
 import edu.uncc.grid.pgaf.interfaces.advanced.BasicLayerInterface;
 import edu.uncc.grid.pgaf.p2p.Node;
 import edu.uncc.grid.pgaf.p2p.Types;
-import edu.uncc.grid.pgaf.p2p.Types.DataFlowRoll;
+import edu.uncc.grid.pgaf.p2p.Types.DataFlowRole;
 
 
 /**
