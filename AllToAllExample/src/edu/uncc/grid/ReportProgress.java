@@ -1,5 +1,6 @@
 package edu.uncc.grid;
 
+import java.io.Serializable;
 import java.util.List;
 
 import edu.uncc.grid.pgaf.datamodules.Data;
@@ -21,8 +22,8 @@ public class ReportProgress extends Reduce {
 	}
 
 	@Override
-	public void ServerReduce(List<Data> data) {
-		for( Data dat : data ){
+	public void ServerReduce(List<Serializable> data) {
+		for( Serializable dat : data ){
 			DataMap<String,Integer> map = (DataMap<String,Integer>) dat;
 			System.out.println( "Display with gui or otherwise " + map.get("value"));
 		}
@@ -35,5 +36,6 @@ public class ReportProgress extends Reduce {
 
 	@Override
 	public void initializeModule(String[] args) {}
+
 
 }
