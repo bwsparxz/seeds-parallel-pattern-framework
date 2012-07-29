@@ -580,9 +580,32 @@ public class Node {
 	    //new XMLFormatter()
 	    //Set seeds
 		LoadSeedRdvs( PgafPath + Diseminator.RDV_SEED_FILE, NetConfig, NetDetective );
-		
-		
         //Register Custom Advertisements
+		registerAdvertisements();
+		/*AdvertisementFactory.registerAdvertisementInstance(
+				DirectorRDVAdvertisement.getAdvertisementType(), 
+				new DirectorRDVAdvertisement.Instantiator()
+				);*/
+				
+		//Let the show begin!  delete this sleep and see if it affects anything
+		//if so, write it here.
+		NetPeerGroup = NetManager.startNetwork();
+		
+		//for(int i = 0 ; i < 10; i++){
+		//	Thread.sleep(100);
+		//}
+		Node.getLog().log(
+				Level.FINEST, " NetworkType: " 
+				+ this.getNetworkType().toString() 
+				+ " lan addr: " + (NetDetective.getLANAddress() == null ? "null" : NetDetective.getLANAddress() )
+				+ " wan addr: " + (NetDetective.getWANAddress() == null ? "null" : NetDetective.getWANAddress() )
+				);
+		//Node.getLog().log(Level.FINE, " setting " + NetDetective.getLANAddress() + " as the interface " );
+	}
+	/**
+	 * Registers all the advertisements used by Seeds.
+	 */
+	public static void registerAdvertisements(){
 		AdvertisementFactory.registerAdvertisementInstance(
 				DirectorRDVCompetitionAdvertisement.getAdvertisementType()
 				, new DirectorRDVCompetitionAdvertisement.Instantiator() 	);
@@ -600,33 +623,7 @@ public class Node {
 		AdvertisementFactory.registerAdvertisementInstance(
 				NetworkInstructionAdvertisement.getAdvertisementType()
 				, new NetworkInstructionAdvertisement.Instantiator());
-		 
-		
-		
-		/*AdvertisementFactory.registerAdvertisementInstance(
-				DirectorRDVAdvertisement.getAdvertisementType(), 
-				new DirectorRDVAdvertisement.Instantiator()
-				);*/
-				
-		//Let the show begin!  delete this sleep and see if it affects anything
-		//if so, write it here.
-		NetPeerGroup = NetManager.startNetwork();
-		
-		
-		
-		//for(int i = 0 ; i < 10; i++){
-		//	Thread.sleep(100);
-		//}
-		Node.getLog().log(
-				Level.FINEST, " NetworkType: " 
-				+ this.getNetworkType().toString() 
-				+ " lan addr: " + (NetDetective.getLANAddress() == null ? "null" : NetDetective.getLANAddress() )
-				+ " wan addr: " + (NetDetective.getWANAddress() == null ? "null" : NetDetective.getWANAddress() )
-				);
-		//Node.getLog().log(Level.FINE, " setting " + NetDetective.getLANAddress() + " as the interface " );
-		
 	}
-	
 	public double getUptime(){
 		return (double)(System.currentTimeMillis() - this.TimerStart ) / 1000.0;
 	}
@@ -911,7 +908,7 @@ public class Node {
 	 */
 	public PipeID spawnPattern( Pattern pattern  ) throws IOException{
 		SpawnPatternAdvertisement Advert = (SpawnPatternAdvertisement)
-		AdvertisementFactory.newAdvertisement(SpawnPatternAdvertisement.getAdvertisementType());
+				AdvertisementFactory.newAdvertisement(SpawnPatternAdvertisement.getAdvertisementType());
 		/*
 		 * Create the Pattern Seed Advertisement.
 		 * this advertisement will be published from the Worker.  The Worker does things that both
@@ -924,7 +921,7 @@ public class Node {
 		 * only here should you see a new pattern id created.  Every other piece of code should have a given pattern id.*/
 		PipeID pattern_id = IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID);
 		Advert.setPatternID(pattern_id);
-		Advert.setPatternClassName(pattern.getPatternModule().getClass().getName());
+		Advert.setPatternClassName( pattern.getPatternModule().getClass().getName() );
 		
 		if( pattern.getPatternAnchor() == null){
 			Advert.setSourceAnchor(InetAddress.getLocalHost().getHostName()); //by default it is 'this' host
@@ -935,14 +932,6 @@ public class Node {
 				Advert.setSourceAnchor(pattern.getPatternAnchor().getHostname());
 			}
 		}
-		
-		
-		//System.out.println(" Advert " +  Advert.toString() );
-		/*if( sink == null){
-			Advert.setSinkAnchor("");	//not used jet, by default it will be this host.
-		}else{
-			Advert.setSinkAnchor(sink);
-		}*/
 		
 		this.SourceSinkAvailableOnThisNode.put(pattern_id, pattern.getPatternModule());
 		

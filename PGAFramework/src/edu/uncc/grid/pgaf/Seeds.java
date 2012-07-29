@@ -16,12 +16,23 @@
 package edu.uncc.grid.pgaf;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.InetAddress;
 import java.util.logging.Level;
 
+import net.jxta.discovery.DiscoveryService;
+import net.jxta.document.AdvertisementFactory;
+import net.jxta.id.IDFactory;
+import net.jxta.peergroup.PeerGroupID;
 import net.jxta.pipe.PipeID;
+import edu.uncc.grid.pgaf.advertisement.SpawnPatternAdvertisement;
+import edu.uncc.grid.pgaf.communication.MultiModePipeMapper;
 import edu.uncc.grid.pgaf.deployment.Deployer;
 import edu.uncc.grid.pgaf.interfaces.advanced.BasicLayerInterface;
 import edu.uncc.grid.pgaf.p2p.Node;
+import edu.uncc.grid.pgaf.p2p.Types;
+import edu.uncc.grid.pgaf.p2p.compute.DesktopWorker;
+import edu.uncc.grid.pgaf.p2p.compute.PatternRepetitionException;
 
 public class Seeds {
 	public static Deployer SeedsDeployer;
@@ -53,6 +64,54 @@ public class Seeds {
 		pattern.getPatternModule().initializeModule(pattern.getPatternArguments());
 		return SeedsDeployer.getLocalMachineNode().spawnPattern( pattern) ;
 	}
+	
+	
+	/*******Multi-core API calss ********/
+	/**
+	 * This spawns a pattern on the local machine.  This method does not start the JXTA network.  This method
+	 * only runs the program on the local machine.  Because of this, the method does not need to be preceded by 
+	 * start() method, and no connection needs to be closed with close() method.
+	 * This code is a copy of {@link edu.uncc.grid.pgaf.p2p.Node#spawnPattern(Pattern)} 
+	 * @param pattern
+	 * @return returns the thread that is managing the source and sink.  use Thread.join() to wait for the pattern to finish.
+	 * @throws IOException
+	 * @throws PatternRepetitionException 
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
+	 * @throws SecurityException 
+	 * @throws IllegalArgumentException 
+	 */
+	public static Thread startPatternMulticore( Pattern pattern  ) throws IOException, IllegalArgumentException, SecurityException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, PatternRepetitionException{
+		Node.registerAdvertisements();
+		Node.NetworkType = Types.WanOrNat.MULTI_CORE;
+		//Initialize the memory mapper
+		MultiModePipeMapper.initMapper();
+		SpawnPatternAdvertisement Advert = (SpawnPatternAdvertisement)
+				AdvertisementFactory.newAdvertisement(SpawnPatternAdvertisement.getAdvertisementType());
+		Advert.setArguments(pattern.getPatternArguments() != null? pattern.getPatternArguments() : new String[]{""});
+		Advert.setGridName(Node.getGridName());
+		PipeID pattern_id = IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID);
+		Advert.setPatternID(pattern_id);
+		Advert.setPatternClassName( pattern.getPatternModule().getClass().getName() );
+		if( pattern.getPatternAnchor() == null){
+			Advert.setSourceAnchor(InetAddress.getLocalHost().getHostName()); //by default it is 'this' host
+		}else{
+			if( pattern.getPatternAnchor().getAnchorDFR() != Types.DataFlowRole.SINK_SOURCE){
+				Advert.setSourceAnchor(InetAddress.getLocalHost().getHostName()); //by default it is 'this' host
+			}else{
+				Advert.setSourceAnchor(pattern.getPatternAnchor().getHostname());
+			}
+		}
+		DesktopWorker worker = new DesktopWorker( );
+		//add the module created by the user to the worker object.
+		worker.SourceSinkAvailableOnThisNode.put(pattern_id, pattern.getPatternModule());
+		return worker.checkAdvertisement( Advert );
+	}
+	
+	
 	/**
 	 * Will wait until the pattern has completed.
 	 * @param id

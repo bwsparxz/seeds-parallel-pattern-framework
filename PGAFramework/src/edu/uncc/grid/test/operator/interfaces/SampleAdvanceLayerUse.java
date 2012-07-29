@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import edu.uncc.grid.pgaf.interfaces.advanced.Template;
 import edu.uncc.grid.pgaf.p2p.LeafWorker;
 import edu.uncc.grid.pgaf.p2p.Node;
-import edu.uncc.grid.pgaf.p2p.compute.Worker;
+import edu.uncc.grid.pgaf.p2p.compute.NetworkWorker;
 
 /**
  * This class is created to test the implementation for the plus and vdproduc operators.  the issue at hand is 
@@ -28,11 +28,11 @@ import edu.uncc.grid.pgaf.p2p.compute.Worker;
  *
  */
 public class SampleAdvanceLayerUse extends Thread {
-	Worker LWorker;
+	NetworkWorker LWorker;
 	//Template AdvancedTemplate;
 	TestNewAdvancedLayerTemplateInterface AdvTemplate;
 	
-	public SampleAdvanceLayerUse( Worker w, TestNewAdvancedLayerTemplateInterface adv_temp){
+	public SampleAdvanceLayerUse( NetworkWorker w, TestNewAdvancedLayerTemplateInterface adv_temp){
 		LWorker = w;
 		AdvTemplate = adv_temp;
 	}

@@ -9,7 +9,11 @@ import net.jxta.discovery.DiscoveryListener;
 import net.jxta.discovery.DiscoveryService;
 import net.jxta.document.Advertisement;
 import net.jxta.protocol.DiscoveryResponseMsg;
-
+/**
+ * Queries network for a specific connection advertisement.
+ * @author jfvillal
+ *
+ */
 public class LinkQuery implements DiscoveryListener{
 	Node Network;
 	public LinkQuery( String atribute, String value, Node e ){

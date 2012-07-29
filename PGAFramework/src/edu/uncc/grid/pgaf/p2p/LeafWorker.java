@@ -32,7 +32,7 @@ import edu.uncc.grid.pgaf.communication.MultiModePipeMapper;
 import edu.uncc.grid.pgaf.communication.nat.TunnelClient;
 import edu.uncc.grid.pgaf.interfaces.advanced.Template;
 import edu.uncc.grid.pgaf.p2p.compute.PatternRepetitionException;
-import edu.uncc.grid.pgaf.p2p.compute.Worker;
+import edu.uncc.grid.pgaf.p2p.compute.NetworkWorker;
 import edu.uncc.grid.seeds.comm.dependency.DependencyMapper;
 
 /**
@@ -238,7 +238,7 @@ public class LeafWorker {
 	public static class RoutineAdvertPublisherQuerier implements Runnable, DiscoveryListener{
 		LeafWorker worker;
 		
-		Worker W;
+		NetworkWorker W;
 		IncrementalSleeper DicoverySleeper;
 		//private boolean DebugPipeAckReceived;
 		
@@ -250,7 +250,7 @@ public class LeafWorker {
 			this.worker = w;
 			this.DicoverySleeper = new IncrementalSleeper();
 			RDVID = null;
-			W = new Worker(ParentNode);
+			W = new NetworkWorker(ParentNode);
 		}
 		public boolean isRDVReady(){
 			return RDVID != null;

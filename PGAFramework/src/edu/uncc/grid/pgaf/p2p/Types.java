@@ -64,6 +64,7 @@ public class Types{
 		, WAN
 		, NAT_UPNP
 		, NAT_NON_UPNP
+		, MULTI_CORE //used for Desktop run (only multi-core)
 	}
 	/**
 	 * Used to pass instructions along with the users data

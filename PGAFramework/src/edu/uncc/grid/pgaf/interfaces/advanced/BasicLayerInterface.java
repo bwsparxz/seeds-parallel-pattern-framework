@@ -27,6 +27,7 @@ public abstract class BasicLayerInterface implements Serializable{
 	 * It provides greater access to the user programer while at 
 	 * the same time making the programmer more responsible for 
 	 * the Grid environment.
+	 * TODO change to a class that is more detached from the network implementation of the framework
 	 */
 	transient protected Node Framework;
 	Serializable StateFull;

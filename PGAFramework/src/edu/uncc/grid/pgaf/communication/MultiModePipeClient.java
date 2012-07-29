@@ -123,10 +123,7 @@ public abstract class MultiModePipeClient {
 				throws IOException, ClassNotFoundException, InterruptedException
 				, TunnelNotAvailableException, NATNotSupportedException{
 		ConnectionManager ans = null;
-		
-		new LinkQuery( DataLinkAdvertisement.DataIDTag, ""+segment, network);
-		
-		/** look through the map too see if there is a pipe available.
+		/** look through the map to see if there is a pipe available.
 		 * The Map is filled on the LeafWoker.RoutineAdvertPublisherQuerier */
 		Map<Long, DataLinkAdvertisement> pattern_link_map = MultiModePipeMapper.DataLinkPipeAdvertisementList.get(pattern_id); //segment);
 		if( pattern_link_map == null){
@@ -153,17 +150,15 @@ public abstract class MultiModePipeClient {
 			return null; //return null since it is outdated. (september 28 2010)
 		}
 		
-		
-		
 		/**
 		 * First try to get the client from shared memory.  If there is nothing there, try
 		 * the direct and indirect pipes
 		 */
 		ans = MultiModePipeMapper.SMDispatcher.getClientSharedMemManager( 
-													adv.getDataLinkPipeID(), local_pipe, local_segment
-													, unique_dependency_id, dependency_id 
-													);
+							adv.getDataLinkPipeID(), local_pipe, local_segment, unique_dependency_id, dependency_id	);
+		
 		if( ans == null){
+			new LinkQuery( DataLinkAdvertisement.DataIDTag, ""+segment, network);
 			
 			Node.getLog().log(Level.FINER, "Client's Socket type is " + (network.isJavaSocketPort()?"Java Socket":"Jxta Socket") );	
 			if( Node.getNetworkType() == Types.WanOrNat.WAN || 

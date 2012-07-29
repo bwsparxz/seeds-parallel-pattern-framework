@@ -41,7 +41,7 @@ import edu.uncc.grid.pgaf.communication.CommunicationConstants;
 import edu.uncc.grid.pgaf.communication.MultiModePipeMapper;
 import edu.uncc.grid.pgaf.communication.nat.TunnelBoringModule;
 import edu.uncc.grid.pgaf.p2p.compute.PatternRepetitionException;
-import edu.uncc.grid.pgaf.p2p.compute.Worker;
+import edu.uncc.grid.pgaf.p2p.compute.NetworkWorker;
 import edu.uncc.grid.seeds.comm.dependency.DependencyMapper;
 /**
  * <h2>Purpose</h2>
@@ -206,7 +206,7 @@ public class DirectorRDV {
 	 */
 	public static class RoutineAdvertPublisherQuerier implements Runnable /*, DiscoveryListener*/{
 		private DirectorRDV rdv;
-		Worker W;
+		NetworkWorker W;
 		/**
 		 * DirectorSource true means that the director will resend the error messags to some other director that is 
 		 * the sink
@@ -240,7 +240,7 @@ public class DirectorRDV {
 			stop = false;
 			
 			
-			W = new Worker( ParentNode);
+			W = new NetworkWorker( ParentNode);
 			
 			DebugPipeID = IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID);
 			TunnelPipeID = IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID);

@@ -108,10 +108,13 @@ public class MultiModePipeDispatcher {
 	 * @throws NoPortAvailableToOpenException 
 	 * @throws NATNotSupportedException 
 	 */
-	public MultiModePipeDispatcher(Node network, String thread_name, long segment, List<ConnectionManager> adv_user_list, PipeID pattern_id
+	public MultiModePipeDispatcher(Node network, String thread_name, long segment
+							, List<ConnectionManager> adv_user_list, PipeID pattern_id
 			,RawByteEncoder enc )  
 		throws InterruptedException, IOException, ClassNotFoundException, NoPortAvailableToOpenException, NATNotSupportedException{
-		
+		/**
+		 * Note:  the network can now be null for exclusive communication using shared memory.
+		 */
 		Context = network;
 		this.TunnelAvailable = false;
 		CommPipeID =  IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID);
@@ -123,22 +126,23 @@ public class MultiModePipeDispatcher {
 		 * If the user set Java Socket use Java socket, else use JxtaSocket Dispatcher
 		 *  
 		 *  create wan dispatcher */
-		Node.getLog().log(Level.FINER, "Client's Socket type is " + (network.isJavaSocketPort()?"Java Socket":"Jxta Socket") );
-		
+		if( network != null ){
+			Node.getLog().log(Level.FINER, "Client's Socket type is " + (network.isJavaSocketPort()?"Java Socket":"Jxta Socket") );
+		}
 		/**
 		 * The internal (WAN) pipe id is being used to map the connection.  The new class (1/3/10) Communicator is being
 		 * used to provide an mpi-like connection. to do this, we need to have a pipe_id for each node even if they are not
 		 * planning to start and manage a dispatcher.
 		 */
-		String comp_pipe_id = CommPipeID.toString();
-		JavaDispatcher = new JavaSocketDispatcher(network, thread_name, this.AdvanceUsersList, comp_pipe_id, segment, enc);
-		
-		JavaDispatcher.setName( "Seeds Java Dispatcher id-end-in:" 
-				+ comp_pipe_id.substring(comp_pipe_id.length() - 5, comp_pipe_id.length() - 1) + " port: " 
-				+ JavaDispatcher.getPort() );
-		JavaDispatcher.setDaemon(true);
-		JavaDispatcher.start();
-		
+		if( network != null ){
+			String comp_pipe_id = CommPipeID.toString();
+			JavaDispatcher = new JavaSocketDispatcher(network, thread_name, this.AdvanceUsersList, comp_pipe_id, segment, enc);
+			JavaDispatcher.setName( "Seeds Java Dispatcher id-end-in:" 
+					+ comp_pipe_id.substring(comp_pipe_id.length() - 5, comp_pipe_id.length() - 1) + " port: " 
+					+ JavaDispatcher.getPort() );
+			JavaDispatcher.setDaemon(true);
+			JavaDispatcher.start();
+		}
 		
 		
 		/**Create the advertisement */
@@ -150,23 +154,24 @@ public class MultiModePipeDispatcher {
 		LinkAdvertisement.setDataLinkPipeID( CommPipeID );
 		LinkAdvertisement.setRDataLinkPipeID(RemoteCommPipeID);
 		LinkAdvertisement.setPatternID( pattern_id);
-		
-		LinkAdvertisement.setLanAddress(network.getNetDetective().getLANAddress());
-		LinkAdvertisement.setWanAddress(network.getNetDetective().getWANAddress());
-		if( network.isJavaSocketPort()){
-			LinkAdvertisement.setPort( JavaDispatcher.getPort() );
-			
-		}else{
-			LinkAdvertisement.setPort(-1);
+		if( network != null ){
+			LinkAdvertisement.setLanAddress(network.getNetDetective().getLANAddress());
+			LinkAdvertisement.setWanAddress(network.getNetDetective().getWANAddress());
+			if( network.isJavaSocketPort()){
+				LinkAdvertisement.setPort( JavaDispatcher.getPort() );
+				
+			}else{
+				LinkAdvertisement.setPort(-1);
+			}
 		}
-		
-		Node.getLog().log(Level.FINER, "MultiModeDispatcher \nLocal pipe: " +  CommPipeID.toURI().toString() 
+		if( network != null ){
+			Node.getLog().log(Level.FINER, "MultiModeDispatcher \nLocal pipe: " +  CommPipeID.toURI().toString() 
 				+ "\nRemote pipe: " + RemoteCommPipeID.toURI().toString() 
 				+ "\nPeer ID: " + Node.PID.toURI().toString() 
 				+ "\nPattern ID: " + pattern_id.toString() 
 				+ "\nPort: " + JavaDispatcher.getPort() 
 				+ "\ncode: FISK08");
-		
+		}
 		
 		/**if in NAT nat, request a hosted dispatcher. */
 		if( Node.getNetworkType() == Types.WanOrNat.NAT_NON_UPNP){
@@ -214,11 +219,13 @@ public class MultiModePipeDispatcher {
 		 * 
 		 * 
 		 */
-		if( Node.getNetworkType() != Types.WanOrNat.NAT_NON_UPNP ){
-			Node.getLog().log(Level.FINER, "publishing datalink advert with data_id : " + segment);
-			DiscoveryService service = network.getNetPeerGroup().getDiscoveryService();
-			///service.remotePublish(LinkAdvertisement, 30000 );
-			service.publish(LinkAdvertisement);
+		if( network != null ){
+			if( Node.getNetworkType() != Types.WanOrNat.NAT_NON_UPNP ){
+				Node.getLog().log(Level.FINER, "publishing datalink advert with data_id : " + segment);	
+				DiscoveryService service = network.getNetPeerGroup().getDiscoveryService();
+				///service.remotePublish(LinkAdvertisement, 30000 );
+				service.publish(LinkAdvertisement);
+			}
 		}
 	}
 	
@@ -318,8 +325,10 @@ public class MultiModePipeDispatcher {
 		//Dispatcher = null;
 		JavaDispatcher = null;
 		//flush old advertisement from this node.
-		DiscoveryService service = Context.getNetPeerGroup().getDiscoveryService();
-		service.flushAdvertisement( LinkAdvertisement );
+		if( Context != null ){//it could be null if running in multi-core mode.
+			DiscoveryService service = Context.getNetPeerGroup().getDiscoveryService();
+			service.flushAdvertisement( LinkAdvertisement );
+		}
 	}
 	/**
 	 * Stops the dispatcher from receiving new socket request, but the
