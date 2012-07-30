@@ -943,6 +943,7 @@ public class Node {
 		try{
 			discovery_service.remotePublish(Advert);
 		}catch( NullPointerException e ){
+			System.err.println("This error does not affect the framework.  The bug comes from JXTA (TODO)");
 			//TODO this is oviously a work-around.  the stack trace is this 
 			
 			/*java.lang.NullPointerException

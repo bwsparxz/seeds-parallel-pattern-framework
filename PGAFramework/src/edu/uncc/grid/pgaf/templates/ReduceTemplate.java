@@ -84,7 +84,7 @@ public class ReduceTemplate extends OrderedTemplate{
 			ArrayList<Serializable> list = new ArrayList<Serializable>();
 			for( long i = 0; i < user_mod.getCellCount(); i++ ){
 				Serializable data = (Data)comm.BlockReceive( i );
-				if( data instanceof Data ){
+				if( data instanceof DataInstructionContainer ){
 					if( ((Data)data).getControl() == Types.DataControl.INSTRUCTION_JOBDONE ){
 						++JobDone;
 					}

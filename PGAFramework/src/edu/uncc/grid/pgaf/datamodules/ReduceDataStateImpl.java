@@ -10,7 +10,7 @@ public class ReduceDataStateImpl implements ReduceDataState {
 		++Iteration;
 	}
 	@Override
-	public int getIteration() {
+	public long getIteration() {
 		return Iteration;
 	}
 }
