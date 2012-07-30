@@ -52,12 +52,12 @@ public class PatternAdderLoader extends PatternLoader {
 			Node.getLog().log(Level.FINEST, "new chind pattern id two: " + child_pattern_id_two.toString());
 			Communicator comm2 = new Communicator(Framework, child_pattern_id_two, ((PatternAdderTemplate)OTemplate).SecondOperandAdvancedTemplate.getCommunicationID());
 
-			Node.getLog().log(Level.FINEST,  Node.getLogFolder() + "/operator_stats."
-					+ ((PatternAdderTemplate)OTemplate).FirstOperandAdvancedTemplate.getCommunicationID() +".txt");
+			//Node.getLog().log(Level.FINEST,  Node.getLogFolder() + "/operator_stats."
+			//		+ ((PatternAdderTemplate)OTemplate).FirstOperandAdvancedTemplate.getCommunicationID() +".txt");
 			
-			FileWriter io = new FileWriter (  Node.getLogFolder() + "/operator_stats."
-					+ ((PatternAdderTemplate)OTemplate).FirstOperandAdvancedTemplate.getCommunicationID() +".txt" );
-			BufferedWriter write = new BufferedWriter(io);
+			//FileWriter io = new FileWriter (  Node.getLogFolder() + "/operator_stats."
+			//		+ ((PatternAdderTemplate)OTemplate).FirstOperandAdvancedTemplate.getCommunicationID() +".txt" );
+			//BufferedWriter write = new BufferedWriter(io);
 			
 			/**
 			 * This is the main computation loop for the pattern adder operator.  Seeds will call each of the pattern for a number
@@ -65,7 +65,7 @@ public class PatternAdderLoader extends PatternLoader {
 			 */
 			while( ! done ){	
 
-				long time = System.nanoTime();
+				//long time = System.nanoTime();
 				
 				for( int i = 0; i < a.getFirstOperandCoeficient(); i++){
 					//long seg = ((PatternAdderTemplate)OTemplate).FirstOperandAdvancedTemplate.getCommunicationID();
@@ -82,10 +82,10 @@ public class PatternAdderLoader extends PatternLoader {
 					}
 				}	
 				
-				long stop = System.nanoTime() - time;
-				write.append("(nano) time is : " + stop + "\n");
+				//long stop = System.nanoTime() - time;
+				//write.append("(nano) time is : " + stop + "\n");
 			}
-			write.close();
+			//write.close();
 			//while ( ! ((PatternAdderTemplate)OTemplate).FirstOperandAdvancedTemplate.ComputeSide(comm1) ) ;
 			//while ( ! ((PatternAdderTemplate)OTemplate).SecondOperandAdvancedTemplate.ComputeSide(comm2) ) ;
 			

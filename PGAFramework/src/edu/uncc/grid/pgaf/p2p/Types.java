@@ -64,7 +64,8 @@ public class Types{
 		, WAN
 		, NAT_UPNP
 		, NAT_NON_UPNP
-		, MULTI_CORE //used for Desktop run (only multi-core)
+		, MULTI_CORE //used for Desktop run (only multi-core) (Not really used that much, but could be used in the MultimodePipe to 
+		//help it decide what to use for the connection.
 	}
 	/**
 	 * Used to pass instructions along with the users data

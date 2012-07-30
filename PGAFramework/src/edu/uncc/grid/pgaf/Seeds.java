@@ -33,6 +33,7 @@ import edu.uncc.grid.pgaf.p2p.Node;
 import edu.uncc.grid.pgaf.p2p.Types;
 import edu.uncc.grid.pgaf.p2p.compute.DesktopWorker;
 import edu.uncc.grid.pgaf.p2p.compute.PatternRepetitionException;
+import edu.uncc.grid.seeds.comm.dependency.DependencyMapper;
 
 public class Seeds {
 	public static Deployer SeedsDeployer;
@@ -84,11 +85,15 @@ public class Seeds {
 	 * @throws SecurityException 
 	 * @throws IllegalArgumentException 
 	 */
-	public static Thread startPatternMulticore( Pattern pattern  ) throws IOException, IllegalArgumentException, SecurityException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, PatternRepetitionException{
+	public static Thread startPatternMulticore( Pattern pattern , int cores) throws IOException, IllegalArgumentException, SecurityException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, PatternRepetitionException{
 		Node.registerAdvertisements();
 		Node.NetworkType = Types.WanOrNat.MULTI_CORE;
 		//Initialize the memory mapper
 		MultiModePipeMapper.initMapper();
+		//Initializes the Dataflow Hierarchical Dependency connection mapper.
+		DependencyMapper.initDependencyMapper();
+		//Initializes the pattern with the arguments provided by the user programmer.
+		pattern.getPatternModule().initializeModule(pattern.getPatternArguments());
 		SpawnPatternAdvertisement Advert = (SpawnPatternAdvertisement)
 				AdvertisementFactory.newAdvertisement(SpawnPatternAdvertisement.getAdvertisementType());
 		Advert.setArguments(pattern.getPatternArguments() != null? pattern.getPatternArguments() : new String[]{""});
@@ -105,7 +110,7 @@ public class Seeds {
 				Advert.setSourceAnchor(pattern.getPatternAnchor().getHostname());
 			}
 		}
-		DesktopWorker worker = new DesktopWorker( );
+		DesktopWorker worker = new DesktopWorker( cores );
 		//add the module created by the user to the worker object.
 		worker.SourceSinkAvailableOnThisNode.put(pattern_id, pattern.getPatternModule());
 		return worker.checkAdvertisement( Advert );

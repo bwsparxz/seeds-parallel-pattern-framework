@@ -21,9 +21,11 @@ public class DependencyQuery implements DiscoveryListener{
 	public DependencyQuery( String atribute, String value, Node e ){
 		Network = e;
 		//Value = value;
-		DiscoveryService discovery_service = Network.getNetPeerGroup().getDiscoveryService();
-		discovery_service.getRemoteAdvertisements( null , DiscoveryService.ADV , atribute
-				, value , 100,this);
+		if( Network != null ){
+			DiscoveryService discovery_service = Network.getNetPeerGroup().getDiscoveryService();
+			discovery_service.getRemoteAdvertisements( null , DiscoveryService.ADV , atribute
+					, value , 100,this);
+		}
 	}
 	@Override
 	public void discoveryEvent(DiscoveryEvent event) {

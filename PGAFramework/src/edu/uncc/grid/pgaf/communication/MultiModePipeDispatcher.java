@@ -303,16 +303,13 @@ public class MultiModePipeDispatcher {
 		MultiModePipeMapper.SMDispatcher.removeDispatcher( CommPipeID );
 		if( JavaDispatcher != null){
 			JavaDispatcher.setStop(true);
+			try {
+				JavaDispatcher.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		try {
-			JavaDispatcher.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*if( Dispatcher != null){
-			Dispatcher.setStop(true);
-		}*/
 	}
 	/**
 	 * Stops dispatcher and it also closes all the server pipe this dispatcher was managing.

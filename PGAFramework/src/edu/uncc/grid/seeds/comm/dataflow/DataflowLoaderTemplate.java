@@ -608,8 +608,8 @@ public class DataflowLoaderTemplate extends UnorderedTemplate {
 						 * data left in the send queue.  the next method makes sure we don't have send data
 						 * when we close the node.
 						 */
-						System.out.println("DataflowLoaderTemplate:ClientSide() s:" + perceptron.getSegID().toString() +":v:" 
-								+ perceptron.getCycleVersion() );
+						//System.out.println("DataflowLoaderTemplate:ClientSide() s:" + perceptron.getSegID().toString() +":v:" 
+						//		+ perceptron.getCycleVersion() );
 					}//else{
 						//m_manager.SendObject( perceptron );
 					//}
@@ -763,7 +763,7 @@ public class DataflowLoaderTemplate extends UnorderedTemplate {
 									manager.SendObject(perceptron);
 									perceptron = null;
 									Log( " Sending segment : " + segment );
-									System.out.println( "segment" + segment + " id " + manager.getRemoteNodeConnectionPipeID().toString());
+									//System.out.println( "segment" + segment + " id " + manager.getRemoteNodeConnectionPipeID().toString());
 									NodesWithDataUnit.put(manager.getRemoteNodeConnectionPipeID(), true);
 									++segment;
 									advanceOutstandingDataflows();
@@ -784,9 +784,10 @@ public class DataflowLoaderTemplate extends UnorderedTemplate {
 					if( segment < DPattern.getMinimunCPUCount() ){//.getDataUnitCount() ){
 						Node.getLog().log(Level.FINE, "wait while more nodes connect to me.  Segment so far: " + segment + " Exptected total: " + DPattern.getMinimunCPUCount());
 						//republish patern advertisement
-						DiscoveryService service = this.getNetwork().getNetPeerGroup().getDiscoveryService();
-						service.remotePublish( this.getNetwork().getCurrentPatternAdvert());
-						
+						if( this.getNetwork() != null){
+							DiscoveryService service = this.getNetwork().getNetPeerGroup().getDiscoveryService();
+							service.remotePublish( this.getNetwork().getCurrentPatternAdvert());
+						}
 						//if we still need to wait for more nodes to come online
 						Thread.sleep(100);
 					}

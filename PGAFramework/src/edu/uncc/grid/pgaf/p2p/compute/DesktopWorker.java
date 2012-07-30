@@ -58,8 +58,8 @@ public class DesktopWorker extends Worker implements DiscoveryListener{
 	 * Initializes the Worker design to work on a single multicore computer.
 	 * @throws IOException
 	 */
-	public DesktopWorker( ) throws IOException{
-		Node.CpuCount = 8;
+	public DesktopWorker(int cores ) throws IOException{
+		Node.CpuCount = cores;
 		ModThread = new UserThread[Node.CpuCount];
 		SinkSourceThread = new HashMap<ID, UserThread>();
 		HaveIWorkedOnThisPatternAlready = Collections.synchronizedMap(new HashMap<ID,Boolean>());

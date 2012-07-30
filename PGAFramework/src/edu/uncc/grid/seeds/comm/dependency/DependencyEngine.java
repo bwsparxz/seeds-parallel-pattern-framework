@@ -90,7 +90,7 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 		
 		Dispatcher = new MultiModePipeDispatcher(Context, "DeptEngine" + Segment, Segment, ConnectionServers, PatternID, Encoder);
 		Dispatcher.setOnConnectionEstablishedListener( (int)Segment, this );
-		System.out.println( "DependencyEngine:startServer() new Engine. Port " + Dispatcher.getPort() + " seg_id: " + Segment);
+		//System.out.println( "DependencyEngine:startServer() new Engine. Port " + Dispatcher.getPort() + " seg_id: " + Segment);
 	}
 	
 	/**
@@ -157,11 +157,8 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 			, SplitCoalesceHandler handler
 			) throws IOException, EngineClosedException{
 		//this sends an advetisement that we have an output for this stream
-	
 		if(EngineClosed ) throw new EngineClosedException( " registerOutputDependency " + id.toString() );
-		
 		PipeID uniqueId  =  IDFactory.newPipeID(PeerGroupID.defaultNetPeerGroupID);
-		
 		DependencyAdvertisement advert = (DependencyAdvertisement) 
 				AdvertisementFactory.newAdvertisement(DependencyAdvertisement.getAdvertisementType());
 		advert.setDataID(Segment);
@@ -170,27 +167,18 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 		advert.setPatternID(PatternID);
 		//advert.setDirty( false );
 		advert.setCycleVersion( cycle_version );
-		
 		//keep track of adverts running around on network.
 		HostedAdverts.add(advert);
-		DiscoveryService service = Context.getNetPeerGroup().getDiscoveryService();
-		
-		/*FileWriter dump;
- 		try {
- 			dump = new FileWriter( "./dependency_adv_dump.txt", true);
- 			dump.write("hid: " + advert.getHyerarchyID().toString() + " sid: " + advert.getDataID() + "\n" );
- 			dump.close();
- 		} catch (IOException e) {
- 			// TODO Auto-generated catch block
- 			e.printStackTrace();
- 		}*/
 		//register this output dependency with the internal map structure.
 		registerAdvertOnHidaMap( id, advert);
 		
 		//this blocks until some node starts feeding from the output.
 		//get the servers from the connection and put then into hash maps.
-		synchronized( service ){
-			service.publish(advert);
+		if( Context != null ){ //Could be null if running in multi-core mode.
+			DiscoveryService service = Context.getNetPeerGroup().getDiscoveryService();
+			synchronized( service ){
+				service.publish(advert);
+			}
 		}
 		boolean connected = false;
 		Dependency dependency = null;
@@ -203,15 +191,6 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 			
 			//TODO change so that it can receive multiple connection to the same dependency.
 			//republish this engines connection advertisment
-			
-			/*if( i % 25 == 0){ //republish every four seconds
-				synchronized(service){		
-					//republish the dependency advertisement.
-					service.remotePublish(advert);
-					//service.remotePublish(this.Dispatcher.getLinkAdvertisement());
-				}
-			}*/
-			
 			++i;
 			
 			synchronized( ConnectionServers ){
@@ -242,18 +221,6 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 							break;
 						}
 					}
-					
-					/*if( man.getDependencyID().equals( uniqueId )){
-						dependency = new Dependency(man, id, true, uniqueId );
-						connected = true;
-						break;
-					}else{
-						//the ide may not be the same, but it may be compatible.
-						if( id.compareTo(man.getDependencyID()) > 1){
-							HierarchicalDependencyID next_child = man.getDependencyID().getLevel(id.getLevel()+1);
-							dependency = new Dependency(man, id, true, uniqueId );
-						}
-					}*/
 				}
 			}
 			try {
@@ -261,7 +228,6 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			//System.out.println("sleeping --------------------------------------------dataflow " );
 		}
 		return dependency;
 	}
@@ -437,9 +403,9 @@ public class DependencyEngine implements ConnectionEstablishedListener{
 				if( ans == null){ 
 					Thread.sleep(100);
 				}else{
-					Node.getLog().log(Level.INFO, 
-							"MySeg " + this.Segment + " DependencyEngine:getInputDependency... connected to dept : "
-								+ id.toString() + " seg " + ans.getSegs() );
+					//Node.getLog().log(Level.INFO, 
+					//		"MySeg " + this.Segment + " DependencyEngine:getInputDependency... connected to dept : "
+					//			+ id.toString() + " seg " + ans.getSegs() );
 				}
 				
 				if( (System.currentTimeMillis() - time) > timeout ){
