@@ -13,7 +13,7 @@ public class ReportProgress extends Reduce {
 	@Override
 	public Data WorkerSend(ReduceDataState input) {
 		DataForAll all = (DataForAll) input;
-		if( all.getIteration() > 20 ){
+		if( all.getIteration() > 5 ){
 			return null; //this ends the parallel task
 		}
 		DataMap<String,Integer> map = new DataMap<String,Integer>();

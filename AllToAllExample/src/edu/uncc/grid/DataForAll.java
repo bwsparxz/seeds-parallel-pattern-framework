@@ -29,7 +29,7 @@ public class DataForAll implements AllToAllData, ReduceDataState {
 	private static final String ReportIteration  = null;
 	private int count;
 	private int IterationCount;
-	private int mReportIteration;
+	private long mReportIteration;
 	
 	
 	public int getProblemIteration() {
@@ -65,7 +65,7 @@ public class DataForAll implements AllToAllData, ReduceDataState {
 		
 	}
 	@Override
-	public int getIteration() {
+	public long getIteration() {
 		return mReportIteration;
 	}
 
